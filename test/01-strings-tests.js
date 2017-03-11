@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 var tasks = require('../task/01-strings-tasks');
-it.optional = require('../extensions/it-optional');
+ it.optional = require('../extensions/it-optional');
 
 describe('01-strings-tasks', function() {
 
@@ -71,7 +71,7 @@ describe('01-strings-tasks', function() {
         );
     });
 
-    it.optional('getRectangleString should return the string reprentation of rectangle with specified size', function() {
+    it.optional('getRectangleString should return the string representation of rectangle with specified size', function() {
         assert.equal(
            '┌────┐\n'+
            '│    │\n'+

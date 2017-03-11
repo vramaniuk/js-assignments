@@ -1,6 +1,6 @@
 'use strict';
 
-exports = module.exports = testOptional;
+ exports = module.exports = testOptional;
 
 function testOptional(title, fn) {
 
