@@ -306,18 +306,14 @@ function propagateItemsByPositionIndex(arr) {
         return multiplyElement(currentElem, index, resultElem);
     }
 
-    let resultarray = [];
-    let badArray = arr.map((x, index) => {
-        return multiplyElement(x, index);
-    });
-    badArray.map(carvalue => {
-        resultarray = resultarray.concat(carvalue);
-        return carvalue
-    });
-    return resultarray;
+    return arr.map((x, index) => {
+        return multiplyElement(x, index)
+    }).reduce((elem1, elem2) => {
+        return elem1.concat(elem2)
+    }, []);
 }
 
-console.log(propagateItemsByPositionIndex(['a', 'b', 'c', null]));
+console.log(propagateItemsByPositionIndex(['d',null,'',5]));
 /**
  * Returns the 3 largest numbers from the specified array
  *
