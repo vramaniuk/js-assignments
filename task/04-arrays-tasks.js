@@ -313,7 +313,6 @@ function propagateItemsByPositionIndex(arr) {
     }, []);
 }
 
-console.log(propagateItemsByPositionIndex(['d',null,'',5]));
 /**
  * Returns the 3 largest numbers from the specified array
  *
@@ -345,7 +344,12 @@ function get3TopItems(arr) {
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-    throw new Error('Not implemented');
+    let countPozitive=[];
+    arr.map(x => {
+        if ((x > 0)||(x>countPozitive)) countPozitive = x;
+        return x
+    });
+    return countPozitive;
 }
 
 /**
@@ -378,7 +382,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-    throw new Error('Not implemented');
+    return arr.reduce((sum,elem)=>{return sum+elem},0);
 }
 
 /**
@@ -394,8 +398,13 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-    throw new Error('Not implemented');
+    let countFalsy=0;
+    arr.map(x=>{
+        if (!x) countFalsy++;
+        return x});
+    return countFalsy;
 }
+
 
 /**
  * Returns a number of all occurences of the specified item in an array
@@ -428,8 +437,8 @@ function findAllOccurences(arr, item) {
  *    [1, 2, 3, 4, 5]                   => '1,2,3,4,5'
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
-function toStringList() {
-    throw new Error('Not implemented');
+function toStringList(arr) {
+    return arr.join(',');
 }
 
 
