@@ -299,7 +299,8 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-    function multiplyElement(currentElem, index, resultElem = []) {
+    function multiplyElement(currentElem, index, resultElem) {
+        if (!resultElem) resultElem=[];
         if (index == 0) return currentElem;
         if (resultElem.length > index) return resultElem;
         resultElem.push(currentElem);
@@ -312,7 +313,7 @@ function propagateItemsByPositionIndex(arr) {
         return elem1.concat(elem2)
     }, []);
 }
-
+console.log(propagateItemsByPositionIndex( [1,2,3,4,5]));
 /**
  * Returns the 3 largest numbers from the specified array
  *
