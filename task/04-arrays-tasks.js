@@ -327,9 +327,16 @@ function propagateItemsByPositionIndex(arr) {
  *   [ 10, 10, 10, 10 ] => [ 10, 10, 10 ]
  */
 function get3TopItems(arr) {
-
+    let countMax = 0;
+    let arrMax = [];
+    arr.sort((function (a, b) {
+        return b - a;
+    })).map(x => {
+        if (countMax < 3) arrMax.push(x);
+        countMax++;
+    });
+    return arrMax;
 }
-
 
 /**
  * Returns the number of positive numbers from specified array
@@ -344,9 +351,9 @@ function get3TopItems(arr) {
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-    let countPozitive=[];
+    let countPozitive = [];
     arr.map(x => {
-        if ((x > 0)||(x>countPozitive)) countPozitive = x;
+        if ((x > 0) || (x > countPozitive)) countPozitive = x;
         return x
     });
     return countPozitive;
@@ -382,7 +389,9 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-    return arr.reduce((sum,elem)=>{return sum+elem},0);
+    return arr.reduce((sum, elem) => {
+        return sum + elem
+    }, 0);
 }
 
 /**
@@ -398,10 +407,11 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-    let countFalsy=0;
-    arr.map(x=>{
+    let countFalsy = 0;
+    arr.map(x => {
         if (!x) countFalsy++;
-        return x});
+        return x
+    });
     return countFalsy;
 }
 
@@ -467,9 +477,36 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-    throw new Error('Not implemented');
+    arr.sort(function (a, b) {
+        if (a.country > b.country) {
+            return 1;
+        }
+        if (a.country < b.country) {
+            return -1;
+        }
+        if (a.city > b.city) {
+            return 1;
+        }
+        if (a.city < b.city) {
+            return -1;
+        }
+        return 0;
+    });
+return arr;
 }
-
+console.log(sortCitiesArray([
+    { country: 'A', city: '3' },
+    { country: 'A', city: '7' },
+    { country: 'A', city: '1' },
+    { country: 'A', city: '2' },
+    { country: 'A', city: '5' },
+    { country: 'B', city: '5' },
+    { country: 'B', city: '1' },
+    { country: 'B', city: '2' },
+    { country: 'B', city: '2' },
+    { country: 'D', city: '1' },
+    { country: 'E', city: '1' }
+]));
 /**
  * Creates an indentity matrix of the specified size
  *
