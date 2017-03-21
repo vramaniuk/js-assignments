@@ -25,7 +25,7 @@
 function findElement(arr, value) {
     let fInd = -1;
     arr.map((carrval, index) => {
-        if (carrval == value) fInd = index;
+        if (carrval === value) fInd = index;
     });
     return fInd;
 }
@@ -44,7 +44,7 @@ function findElement(arr, value) {
 function generateOdds(len) {
 
     return (new Array(2 * len)).join().split(',').map((_, i) => i).filter(function (currentval) {
-        if (currentval % 2 != 0) return currentval;
+        if (currentval % 2 !== 0) return currentval;
     });
 
 }
@@ -96,7 +96,7 @@ function getArrayOfPositives(arr) {
  */
 function getArrayOfStrings(arr) {
     return arr.filter(x => {
-        return typeof x == 'string'
+        return typeof x === 'string'
     });
 }
 
@@ -279,7 +279,7 @@ function getMovingSum(arr) {
  */
 function getSecondItems(arr) {
     return arr.filter((x, i) => {
-        return i % 2 != 0
+        return i % 2 !== 0
     })
 }
 
@@ -299,8 +299,8 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-    function multiplyElement(currentElem, index, resultElem=[]) {
-        if (index == 0) return currentElem;
+    function multiplyElement(currentElem, index, resultElem = []) {
+        if (index === 0) return currentElem;
         if (resultElem.length > index) return resultElem;
         resultElem.push(currentElem);
         return multiplyElement(currentElem, index, resultElem);
@@ -312,7 +312,7 @@ function propagateItemsByPositionIndex(arr) {
         return elem1.concat(elem2)
     }, []);
 }
-console.log(propagateItemsByPositionIndex( [1,2,3,4,5]));
+
 /**
  * Returns the 3 largest numbers from the specified array
  *
@@ -492,21 +492,9 @@ function sortCitiesArray(arr) {
         }
         return 0;
     });
-return arr;
+    return arr;
 }
-console.log(sortCitiesArray([
-    { country: 'A', city: '3' },
-    { country: 'A', city: '7' },
-    { country: 'A', city: '1' },
-    { country: 'A', city: '2' },
-    { country: 'A', city: '5' },
-    { country: 'B', city: '5' },
-    { country: 'B', city: '1' },
-    { country: 'B', city: '2' },
-    { country: 'B', city: '2' },
-    { country: 'D', city: '1' },
-    { country: 'E', city: '1' }
-]));
+
 /**
  * Creates an indentity matrix of the specified size
  *
@@ -526,7 +514,17 @@ console.log(sortCitiesArray([
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-    throw new Error('Not implemented');
+    let pozition = 0;
+
+    function fillArray(n) {
+        let arr = new Array(n);
+        arr.fill(0);
+        arr[pozition] = 1;
+        pozition++;
+        return arr;
+    }
+
+    return new Array(n).fill(0).map((x) => fillArray(n));
 }
 
 /**
@@ -543,9 +541,11 @@ function getIdentityMatrix(n) {
  *     3, 3   => [ 3 ]
  */
 function getIntervalArray(start, end) {
-    throw new Error('Not implemented');
+    let resArray = new Array(end - start + 1);
+    resArray.fill(0);
+    resArray = resArray.map(x => start++);
+    return resArray;
 }
-
 /**
  * Returns array containing only unique values from the specified array.
  *
@@ -558,7 +558,22 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-    throw new Error('Not implemented');
+    function isConc(el, arr) {
+        let z = false;
+        arr.map(x => {
+            if (x === el) z = true;
+            return x;
+        });
+        return z;
+
+    }
+
+    let resArray = [];
+    arr = arr.map(x => {
+        if (!isConc(x, resArray)) resArray.push(x);
+        return x;
+    });
+    return resArray;
 }
 
 /**
@@ -608,9 +623,13 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    throw new Error('Not implemented');
+    return arr.map(x => {
+        return childrenSelector(x)
+    })
+        .reduce((elem1, elem2) => {
+            return elem1.concat(elem2)
+        }, []);
 }
-
 
 /**
  * Returns an element from the multidimentional array by the specified indexes.
@@ -625,7 +644,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
+    return indexes.length === 1? arr[indexes] : indexes.reduce((p,c)=>Array.isArray(p)?p[c]:arr[p][c]);
 }
 
 
@@ -648,9 +667,17 @@ function getElementByIndexes(arr, indexes) {
  *
  */
 function swapHeadAndTail(arr) {
-    throw new Error('Not implemented');
-}
+    let medArr = arr;
+    let resArray = arr;
 
+    let lastpart = medArr.slice(Math.ceil(medArr.length / 2));
+
+    resArray.copyWithin(Math.ceil(arr.length / 2), 0, Math.floor(arr.length / 2));
+    let removed = resArray.splice(0, Math.floor(arr.length / 2));
+
+    resArray = lastpart.concat(resArray);
+    return resArray;
+}
 
 module.exports = {
     findElement: findElement,
