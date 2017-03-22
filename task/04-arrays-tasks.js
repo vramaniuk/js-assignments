@@ -373,7 +373,11 @@ function getPositivesCount(arr) {
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
 function sortDigitNamesByNumericOrder(arr) {
-    throw new Error('Not implemented');
+    const etArr = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+    arr.sort((function (a, b) {
+        return etArr.indexOf(a) - etArr.indexOf(b);
+    }));
+    return arr;
 }
 
 /**
@@ -602,14 +606,25 @@ function distinct(arr) {
  *            =>
  *   Map {
  *    "Belarus" => ["Brest", "Grodno", "Minsk"],
- *    "Russia" => ["Omsk", "Samara"], 
+ *    "Russia" => ["Omsk", "Samara"],
  *    "Poland" => ["Lodz"]
  *   }
  */
 function group(array, keySelector, valueSelector) {
+    // let myMap = new Map(array);
+    // return myMap.keys();
     throw new Error('Not implemented');
 }
-
+// console.log(group([
+//         {country: 'Belarus', city: 'Brest'},
+//         {country: 'Russia', city: 'Omsk'},
+//         {country: 'Russia', city: 'Samara'},
+//         {country: 'Belarus', city: 'Grodno'},
+//         {country: 'Belarus', city: 'Minsk'},
+//         {country: 'Poland', city: 'Lodz'}
+//     ],
+//     item => item.country,
+//     item => item.city));
 
 /**
  * Projects each element of the specified array to a sequence and flattens the resulting sequences into one array.
@@ -644,7 +659,7 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    return indexes.length === 1? arr[indexes] : indexes.reduce((p,c)=>Array.isArray(p)?p[c]:arr[p][c]);
+    return indexes.length === 1 ? arr[indexes] : indexes.reduce((p, c) => Array.isArray(p) ? p[c] : arr[p][c]);
 }
 
 
