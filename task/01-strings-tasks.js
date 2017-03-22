@@ -219,7 +219,7 @@ function getRectangleString(width, height) {
 
     let strBot = '└ ┘\n'.replace(' ', strTopAdd);
 
-    if (width == 2) strMedFull = '';
+    if (width === 2) strMedFull = '';
 
     return strTop + strMedFull + strBot;
 }
@@ -297,7 +297,7 @@ function getCardId(value) {
         'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
         'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
     let id;
-    for (let i = 0; i <= arr.length; i++) if (arr[i] == value) id = i;
+    for (let i = 0; i <= arr.length; i++) if (arr[i] === value) id = i;
     return id;
 }
 console.log(getCardId('K♣'));
