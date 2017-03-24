@@ -4,7 +4,7 @@ var assert = require('assert');
 var tasks = require('../task/05-regex-tasks');
 it.optional = require('../extensions/it-optional');
 
-describe('05-regex-tasks', function() {
+describe('05-regex-tasks', function () {
 
     it.optional('getRegexForGuid should match the valid GUID', function () {
         var result = tasks.getRegexForGuid();
@@ -28,10 +28,10 @@ describe('05-regex-tasks', function() {
             '0c74f13f-fa83-4c48-9b33-68921dd72463',
             'The roof, the roof, the roof is on fire'
         ].forEach((str) => {
-             assert(
-                 result.test(str) == false,
+            assert(
+                result.test(str) == false,
                 `regex matches '${str}'`
-             );
+            );
         });
 
     });
@@ -40,14 +40,14 @@ describe('05-regex-tasks', function() {
     it.optional('getRegexForPitSpot should be implemeted according to task', function () {
         var result = tasks.getRegexForPitSpot();
 
-        [ 'pit', 'spot', 'spate', 'slap two', 'respite' ].forEach((str) => {
+        ['pit', 'spot', 'spate', 'slap two', 'respite'].forEach((str) => {
             assert(
                 result.test(str),
                 `regex does not match '${str}'`
             );
         });
 
-        [ ' pt', 'Pot', 'peat', 'part' ].forEach((str) => {
+        [' pt', 'Pot', 'peat', 'part'].forEach((str) => {
             assert(
                 result.test(str) == false,
                 `regex matches '${str}'`
@@ -154,8 +154,8 @@ describe('05-regex-tasks', function() {
         });
 
         assert(
-           !'abcdABCD1234'.match(tasks.getPasswordValidator(20)),
-           'Password validator do not validate minLength restriction'
+            !'abcdABCD1234'.match(tasks.getPasswordValidator(20)),
+            'Password validator do not validate minLength restriction'
         );
     });
 });
