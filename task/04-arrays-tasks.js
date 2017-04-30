@@ -611,23 +611,12 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-    var map = new Map();
+    let map = new Map();
     array.map((v, i) => {
         map.set(keySelector(v), (map.get(keySelector(v)) === undefined ? [] : map.get(keySelector(v))).concat([valueSelector(v)]));
     });
     return map;
 }
-console.log(group([
-        {country: 'Belarus', city: 'Brest'},
-        {country: 'Russia', city: 'Omsk'},
-        {country: 'Russia', city: 'Samara'},
-        {country: 'Belarus', city: 'Grodno'},
-        {country: 'Belarus', city: 'Minsk'},
-        {country: 'Poland', city: 'Lodz'}
-    ],
-    item => item.country,
-    item => item.city));
-
 /**
  * Projects each element of the specified array to a sequence and flattens the resulting sequences into one array.
  *
