@@ -113,9 +113,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    let valueNew = '';
-    for (let i = 0; i < count; i++) valueNew = valueNew + value;
-    return valueNew;
+    return value.repeat(count);
 }
 
 /**
@@ -163,8 +161,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
-    str = str.toUpperCase();
-    return str;
+    return str.toUpperCase();
 }
 
 /**
@@ -178,8 +175,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
-    let arr = str.split(';');
-    return arr;
+    return str.split(';');
 }
 
 /**
@@ -241,7 +237,6 @@ function getRectangleString(width, height) {
  */
 function encodeToRot13(str) {
     return str.replace(/[A-Za-z]/g, function (c) {
-
         return String.fromCharCode((((c = c.charCodeAt(0)) & 223) - 52) % 26 + (c & 32) + 65);
     });
 }
@@ -260,10 +255,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    let strObj = value;
-    if ((typeof (value) === 'string') || ( strObj instanceof String ))
-        return true;
-    else return false;
+    return (typeof (value) === 'string') || ( value instanceof String );
 }
 
 
@@ -300,7 +292,7 @@ function getCardId(value) {
     for (let i = 0; i <= arr.length; i++) if (arr[i] === value) id = i;
     return id;
 }
-console.log(getCardId('K♣'));
+
 
 module.exports = {
     concatenateStrings: concatenateStrings,

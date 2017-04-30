@@ -34,7 +34,36 @@
  *
  */
 function parseBankAccount(bankAccount) {
-    throw new Error('Not implemented');
+    let myNum = {
+        " _ | ||_|":'0',
+        "     |  |":'1',
+        " _  _||_ ":'2',
+        " _  _| _|":'3',
+        "   |_|  |":'4',
+        " _ |_  _|":'5',
+        " _ |_ |_|":'6',
+        " _   |  |":'7',
+        " _ |_||_|":'8',
+        " _ |_| _|":'9'
+    };
+    let lenAll = bankAccount.length;
+    let beg;
+    let lenLine = lenAll/3;
+    let countNum = (lenLine - 1)/3;
+    let Nums = '';
+    let getSubNum = x => bankAccount.substring(beg, beg + 3);
+    let i = -1;
+    while(++i < countNum) {
+        let v = '';
+        beg = i*3;
+        v += getSubNum(beg);
+        beg += lenLine;
+        v += getSubNum(beg);
+        beg += lenLine;
+        v += getSubNum(beg);
+        Nums += myNum[v];
+    }
+    return parseInt(Nums)
 }
 
 
@@ -63,7 +92,12 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    //throw new Error('Not implemented');
+    let pattern = `(?!\\s).{1,${columns}}(?=(\\s|$))`;
+    let result = text.match(new RegExp(pattern, 'g'));
+    for(let i = 0, len = result.length; i < len; i++) {
+        yield result[i];
+    }
 }
 
 
@@ -97,10 +131,155 @@ const PokerRank = {
     TwoPairs: 2,
     OnePair: 1,
     HighCard: 0
-}
+};
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    const rating = ['', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+
+    /* function Group(_name) {
+     this.name = _name;
+     this.count = 1;
+     this.add = function() { this.count++; }
+     }*/
+
+    function GroupsBox() {
+
+        function Group(_name) {
+            this.name = _name;
+            this.count = 1;
+            this.add = function() { this.count++; }
+        }
+
+
+        let _box = [];
+
+        this.box = function() {
+            return _box;
+        }();
+
+        this.add = function(value, f) {
+            let g = _box.find(y => f(y.name, value));
+            if(g) {
+                g.add();
+            } else {
+                _box.push(new Group(value));
+            }
+        }
+    }
+
+
+    function ChainBox() {
+
+        function Chain(firstVal) {
+            this.items = [firstVal];
+            let next = firstVal.rank + 1;
+
+            this.first = function() { return firstVal; }();
+
+            this.add = function (val) {
+                if(next === val.rank) {
+                    this.items.push(val);
+                    next = val.rank + 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+
+            this.addChain = function (ch) {
+                if(ch.first.rank === next) {
+                    this.items = this.items.concat(ch.items);
+                    next = this.items[this.items.length - 1].rank + 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+
+
+        let items = [];
+
+        this.box = function() {
+            return items;
+        }();
+
+        this.chains = function() { return items; }
+
+        this.add = function(val) {
+            let r = items.some(x => x.add(val));
+
+            if(!r) {
+                items.push(new Chain(val));
+                if(val.rank === 13) {
+                    let A = new Card(val.card);
+                    A.rank = 0;
+                    items.push(new Chain(A));
+                }
+                items.sort((x1, x2) =>  x1.first.rank - x2.first.rank );
+            }
+            let p = 0, n = 1;
+            while(n < items.length) {
+                let c = items[p].addChain(items[n]);
+                if(c) {
+                    items.splice(n, 1);
+                } else {
+                    p++;
+                    n++;
+                }
+            }
+        }
+    }
+
+
+    function Card(c) {
+        this.card = c;
+        this.color = c.slice(-1);
+        this.rank = rating.indexOf(c.slice(0, -1));
+    }
+    hand = hand.map(x => new Card(x));
+
+
+    let chainRank = new ChainBox();
+    hand.forEach(chainRank.add);
+
+    let groupsColor = new GroupsBox();
+    let addColor = x => groupsColor.add(x, (y1, y2) => y1.color === y2.color);
+    hand.forEach(addColor);
+
+    if(groupsColor.box.length === 1) {
+
+        if(chainRank.box.some(x => x.items.length === 5))
+            return PokerRank.StraightFlush;
+        return PokerRank.Flush;
+    }
+    if(chainRank.box.some(x => x.items.length === 5))
+        return PokerRank.Straight;
+
+    let groupsRank = new GroupsBox();
+    let addRank = x => groupsRank.add(x, (y1, y2) => y1.rank === y2.rank);
+    hand.forEach(addRank);
+
+    if(groupsRank.box.some(x => x.count === 4))
+        return PokerRank.FourOfKind;
+
+    if(groupsRank.box.some(x => x.count === 3)){
+        if(groupsRank.box.length === 2)
+            return PokerRank.FullHouse;
+        else
+            return PokerRank.ThreeOfKind;
+
+    }
+
+    let countPairs = groupsRank.box.filter(x => x.count === 2).length;
+    if(countPairs === 2)
+        return PokerRank.TwoPairs;
+    if(countPairs === 1)
+        return PokerRank.OnePair;
+
+    return PokerRank.HighCard;
 }
 
 
@@ -110,10 +289,10 @@ function getPokerHandRank(hand) {
  * The task is to break the figure in the rectangles it is made of.
  *
  * NOTE: The order of rectanles does not matter.
- * 
+ *
  * @param {string} figure
  * @return {Iterable.<string>} decomposition to basic parts
- * 
+ *
  * @example
  *
  *    '+------------+\n'+
@@ -135,7 +314,51 @@ function getPokerHandRank(hand) {
  *    '+-------------+\n'
  */
 function* getFigureRectangles(figure) {
-   throw new Error('Not implemented');
+    function rect(b, h) {
+        let result = '';
+        let m = b - 2;
+        let line = s => s.repeat(m);
+        result += `+${line('-')}+\n`;
+        result += `|${line(' ')}|\n`.repeat(h-2);
+        result += `+${line('-')}+\n`;
+        return result;
+    }
+
+    let lines = figure.split('\n');
+
+    while(lines.length > 2) {
+        let v = lines.shift();        let high = v.lastIndexOf('+');
+        let n2 = 0;
+        let notStop;
+        while (n2 < high) {
+            let n1 = -1;
+            do {
+                n1 = v.indexOf('+', n2);
+                let subN1 = lines[0][n1];
+                 notStop = (subN1 !== '+') && (subN1 !== '|');
+                n2 = n1 + 1;
+            } while(notStop);
+            if(n1 === -1) break;
+
+
+            let n = n1;
+
+
+            do {
+                n2 = v.indexOf('+',n + 1);
+                let subN2 = lines[0][n2];
+                 notStop = (subN2 !== '+') && (subN2 !== '|');
+                n = n2;
+            } while(notStop && (n2 !== -1));
+            if(n2 === -1) break;
+            let b = n2 - n1 + 1;
+            let h = lines.findIndex(x => x[n1] === '+' && x[n2] === '+') + 2;
+
+
+
+            yield rect(b, h);
+        }
+    }
 }
 
 
