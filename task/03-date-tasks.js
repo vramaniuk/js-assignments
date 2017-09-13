@@ -95,7 +95,7 @@ function timeSpanToString(startDate, endDate) {
     if (mseconds < 100 && mseconds > 10) mseconds = '0' + mseconds; else if (mseconds < 10) mseconds = '00' + mseconds;
     return (`${hours}:${minutes}:${seconds}.${mseconds}`);
 }
-// console.log(timeSpanToString( new Date(2000,1,1,10,0,0), new Date(2000,1,1,11,5,20,143)));
+console.log(timeSpanToString( new Date(2000,1,1,10,0,0), new Date(2000,1,1,11,5,20,143)));
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
@@ -112,14 +112,14 @@ function timeSpanToString(startDate, endDate) {
  */
 function angleBetweenClockHands(date) {
     let myDate = new Date(date);
-    let hours=myDate.getHours();
-    let minutes=myDate.getMinutes();
+    let hours=myDate.getUTCHours();
+    let minutes=myDate.getUTCMinutes();
     if (hours>12) hours=hours-12;
     let angle=30*hours-minutes*11/2;
     if (angle>180) angle=360-angle;
     return Math.abs(angle*Math.PI/180);
 }
-console.log(angleBetweenClockHands(Date.UTC(2016,3,5,21, 0)));
+// console.log(angleBetweenClockHands(Date.UTC(2016,3,5,21, 0)));
 
 module.exports = {
     parseDataFromRfc2822: parseDataFromRfc2822,
