@@ -23,11 +23,11 @@
  *    [0, 1, 2, 3, 4, 5], 5    => 5
  */
 function findElement(arr, value) {
-    let fInd = -1;
-    arr.map((carrval, index) => {
-        if (carrval === value) fInd = index;
-    });
-    return fInd;
+    // let fInd = -1;
+    // arr.map((carrval, index) => {
+    //     if (carrval === value) fInd = index;
+    // });
+    return arr.indexOf(value);
 }
 
 /**
@@ -43,7 +43,8 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
 
-    return (new Array(2 * len)).join().split(',').map((_, i) => i).filter(function (currentval) {
+    // return (new Array(2 * len)).join().split(',').map((_, i) => i).filter(function (currentval) {
+    return (new Array(2 * len)).fill('_').map((_, i) => i).filter(function (currentval) {
         if (currentval % 2 !== 0) return currentval;
     });
 
@@ -573,7 +574,7 @@ function distinct(arr) {
     }
 
     let resArray = [];
-    arr = arr.map(x => {
+    arr.map(x => {
         if (!isConc(x, resArray)) resArray.push(x);
         return x;
     });

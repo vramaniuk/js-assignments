@@ -65,9 +65,9 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    let st = value.replace('Hello, ', '').replace('!', '');
-    value = st;
-    return value;
+    // let st = ;
+    // value = st;
+    return value.replace('Hello, ', '').replace('!', '');
 }
 
 /**
@@ -96,8 +96,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    value = value.trim();
-    return value;
+    return value.trim();
 }
 
 
@@ -129,8 +128,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
-    let str2 = (str.replace(value, '')).replace('  ', ' ');
-    return str2;
+    return str.replace(value, '').replace('  ', ' ');
 }
 
 /**
@@ -145,8 +143,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    let str2 = str.replace('<', '').replace('>', '');
-    return str2;
+    return str.replace(/<|>/g, '');
 }
 
 
@@ -201,6 +198,7 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
+
 function getRectangleString(width, height) {
     let strTopAdd = '';
     for (let i = 0; i < (width - 2); i++) strTopAdd = strTopAdd + '─';
@@ -219,7 +217,6 @@ function getRectangleString(width, height) {
 
     return strTop + strMedFull + strBot;
 }
-
 /**
  * Encode specified string with ROT13 cipher
  * See details:  https://en.wikipedia.org/wiki/ROT13
@@ -289,7 +286,12 @@ function getCardId(value) {
         'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
         'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
     let id;
-    for (let i = 0; i <= arr.length; i++) if (arr[i] === value) id = i;
+    arr.map((elem,idx)=>{
+        if (elem===value) {
+            id=idx;
+            return undefined;
+        }});
+    // for (let i = 0; i <= arr.length; i++) if (arr[i] === value) id = i;
     return id;
 }
 
