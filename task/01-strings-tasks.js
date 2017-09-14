@@ -200,22 +200,30 @@ function extractEmails(str) {
  */
 
 function getRectangleString(width, height) {
-    let strTopAdd = '';
-    for (let i = 0; i < (width - 2); i++) strTopAdd = strTopAdd + '─';
-    let strTop = '┌ ┐\n'.replace(' ', strTopAdd);
+    // let strTopAdd = '';
+    // for (let i = 0; i < (width - 2); i++) strTopAdd = strTopAdd + '─';
+    // let strTop = '┌ ┐\n'.replace(' ', strTopAdd);
+    //
+    // let strMedAdd = ' ';
+    // for (let i = 1; i < (width - 2); i++) strMedAdd += ' ';
+    // let strMed = '│ │\n'.replace(' ', strMedAdd);
+    //
+    // let strMedFull = strMed;
+    // for (let i = 1; i < (height - 2); i++)  strMedFull = strMedFull + strMed;
+    //
+    // let strBot = '└ ┘\n'.replace(' ', strTopAdd);
+    //
+    // if (width === 2) strMedFull = '';
+    //
+    // return strTop + strMedFull + strBot;
+    const w = width - 2;
+    const h = height - 2;
 
-    let strMedAdd = ' ';
-    for (let i = 1; i < (width - 2); i++) strMedAdd += ' ';
-    let strMed = '│ │\n'.replace(' ', strMedAdd);
+    const top = '┌' + '─'.repeat(w) + '┐\n';
+    const middle = ('│' + ' '.repeat(w) + '│\n').repeat(h);
+    const bottom = '└' + '─'.repeat(w) + '┘\n';
 
-    let strMedFull = strMed;
-    for (let i = 1; i < (height - 2); i++)  strMedFull = strMedFull + strMed;
-
-    let strBot = '└ ┘\n'.replace(' ', strTopAdd);
-
-    if (width === 2) strMedFull = '';
-
-    return strTop + strMedFull + strBot;
+    return top + middle + bottom;
 }
 /**
  * Encode specified string with ROT13 cipher
@@ -286,13 +294,13 @@ function getCardId(value) {
         'A♥', '2♥', '3♥', '4♥', '5♥', '6♥', '7♥', '8♥', '9♥', '10♥', 'J♥', 'Q♥', 'K♥',
         'A♠', '2♠', '3♠', '4♠', '5♠', '6♠', '7♠', '8♠', '9♠', '10♠', 'J♠', 'Q♠', 'K♠'];
     let id;
-    arr.map((elem,idx)=>{
-        if (elem===value) {
-            id=idx;
-            return undefined;
-        }});
+    // arr.map((elem,idx)=>{
+    //     if (elem===value) {
+    //         id=idx;
+    //         return undefined;
+    //     }});
     // for (let i = 0; i <= arr.length; i++) if (arr[i] === value) id = i;
-    return id;
+    return arr.indexOf(value);
 }
 
 
