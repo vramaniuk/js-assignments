@@ -95,7 +95,7 @@ function timeSpanToString(startDate, endDate) {
     if (mseconds < 100 && mseconds > 10) mseconds = '0' + mseconds; else if (mseconds < 10) mseconds = '00' + mseconds;
     return (`${hours}:${minutes}:${seconds}.${mseconds}`);
 }
-console.log(timeSpanToString( new Date(2000,1,1,10,0,0), new Date(2000,1,1,11,5,20,143)));
+// console.log(timeSpanToString( new Date(2000,1,1,10,0,0), new Date(2000,1,1,11,5,20,143)));
 
 /**
  * Returns the angle (in radians) between the hands of an analog clock for the specified Greenwich time.
