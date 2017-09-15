@@ -187,7 +187,7 @@ function getHead(arr, n) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
  */
 function getTail(arr, n) {
-    return arr.slice(arr.length - n);
+    return arr.slice(- n);
 }
 
 
@@ -285,7 +285,7 @@ function getSecondItems(arr) {
  */
 function propagateItemsByPositionIndex(arr) {
     function multiplyElement(currentElem, index, resultElem = []) {
-        if (index === 0) return currentElem;
+        if (!index) return currentElem;
         if (resultElem.length > index) return resultElem;
         resultElem.push(currentElem);
         return multiplyElement(currentElem, index, resultElem);
@@ -309,15 +309,14 @@ function propagateItemsByPositionIndex(arr) {
 function get3TopItems(arr) {
     let countMax = 0;
     let arrMax = [];
-    arr.sort(((a, b) => b - a))
+    arr.sort((a, b) => b - a)
         .map(x => {
-            if (countMax < 3) arrMax.push(x);
-            countMax++;
-        });
+        if (countMax < 3) arrMax.push(x);
+        countMax++;
+    });
     return arrMax;
 }
 
-console.log(get3TopItems());
 /**
  * Returns the number of positive numbers from specified array
  *
@@ -331,11 +330,8 @@ console.log(get3TopItems());
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-    let countPozitive = [];
-    arr.map(x => {
-        if ((x > 0) || (x > countPozitive)) countPozitive = x;
-        return x
-    });
+    let countPozitive=0;
+    arr.map(x =>{if (x > 0) countPozitive++});
     return countPozitive;
 }
 
@@ -415,10 +411,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-    let arrCount = arr.filter(x => {
-        if (x === item) return 'x'
-    });
-    return arrCount.length;
+    return arr.filter(x => {if (x === item) return '_'}).length;
 }
 
 /**
@@ -498,19 +491,18 @@ function sortCitiesArray(arr) {
  *           [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-    let pozition = 0;
+    let position = 0;
 
     function fillArray(n) {
         let arr = new Array(n);
         arr.fill(0);
-        arr[pozition] = 1;
-        pozition++;
+        arr[position] = 1;
+        position++;
         return arr;
     }
 
-    return new Array(n).fill(0).map((x) => fillArray(n));
+    return new Array(n).fill(0).map((_) => fillArray(n));
 }
-
 /**
  * Creates an array of integers from the specified start to end (inclusive)
  *
@@ -542,11 +534,10 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-    function isConc(el, arr) {
+    function isCont(el, arr) {
         let z = false;
         arr.map(x => {
             if (x === el) z = true;
-            return x;
         });
         return z;
 
@@ -554,7 +545,7 @@ function distinct(arr) {
 
     let resArray = [];
     arr.map(x => {
-        if (!isConc(x, resArray)) resArray.push(x);
+        if (!isCont(x, resArray)) resArray.push(x);
         return x;
     });
     return resArray;
@@ -592,11 +583,30 @@ function distinct(arr) {
  */
 function group(array, keySelector, valueSelector) {
     let map = new Map();
-    array.map((v, i) => {
-        map.set(keySelector(v), (map.get(keySelector(v)) === undefined ? [] : map.get(keySelector(v))).concat([valueSelector(v)]));
+    // map.set('Belarus',[]);
+    // map.set('Russia',[]);
+    // map.set('Russia',[]);
+    // map.set('Belarus',[]);
+    // map.set('Belarus',[]);
+    // map.set('Poland',[]);
+    array.map((el) => {
+        map.set(keySelector(el),[])
+    });
+    array.map((el) => {
+        map.set(keySelector(el), map.get(keySelector(el)).concat([valueSelector(el)]));
     });
     return map;
 }
+// console.log(group([
+//         { country: 'Belarus', city: 'Brest' },
+//         { country: 'Russia', city: 'Omsk' },
+//         { country: 'Russia', city: 'Samara' },
+//         { country: 'Belarus', city: 'Grodno' },
+//         { country: 'Belarus', city: 'Minsk' },
+//         { country: 'Poland', city: 'Lodz' }
+//     ],
+//     item => item.country,
+//     item => item.city));
 /**
  * Projects each element of the specified array to a sequence and flattens the resulting sequences into one array.
  *
@@ -609,14 +619,9 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    return arr.map(x => {
-        return childrenSelector(x)
-    })
-        .reduce((elem1, elem2) => {
-            return elem1.concat(elem2)
-        }, []);
+    return arr.map(x => childrenSelector(x)).reduce((elem1, elem2) => elem1.concat(elem2), []);
 }
-
+// console.log(selectMany( ['one','two','three'], x=>x.split('')));
 /**
  * Returns an element from the multidimentional array by the specified indexes.
  *
@@ -630,9 +635,12 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    return indexes.length === 1 ? arr[indexes] : indexes.reduce((p, c) => Array.isArray(p) ? p[c] : arr[p][c]);
+    return (indexes.length === 3 && arr[indexes[0]][indexes[1]][indexes[2]]) ||
+        (indexes.length === 2 && arr[indexes[0]][indexes[1]]) ||
+        arr[indexes[0]];
 }
 
+// console.log(getElementByIndexes([[[ 1, 2, 3]]], [ 0, 0, 1 ]));
 
 /**
  * Swaps the head and tail of the specified array:
@@ -659,7 +667,7 @@ function swapHeadAndTail(arr) {
     let lastpart = medArr.slice(Math.ceil(medArr.length / 2));
 
     resArray.copyWithin(Math.ceil(arr.length / 2), 0, Math.floor(arr.length / 2));
-    let removed = resArray.splice(0, Math.floor(arr.length / 2));
+    resArray.splice(0, Math.floor(arr.length / 2));
 
     resArray = lastpart.concat(resArray);
     return resArray;
