@@ -1,590 +1,139 @@
 'use strict';
 
-/**************************************************************************************************
- *                                                                                                *
- * Plese read the following tutorial before implementing tasks:                                   *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Control_flow_and_error_handling  *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Loops_and_iteration              *
- *                                                                                                *
- **************************************************************************************************/
+/********************************************************************************************
+ *                                                                                          *
+ * Plese read the following tutorial before implementing tasks:                             *
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators   *
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield        *
+ *                                                                                          *
+ ********************************************************************************************/
 
 
 /**
- * Returns the 'Fizz','Buzz' or an original number using the following rules:
- * 1) return original number
- * 2) but if number multiples of three return 'Fizz'
- * 3) for the multiples of five return 'Buzz'
- * 4) for numbers which are multiples of both three and five return 'FizzBuzz'
+ * Returns the lines sequence of "99 Bottles of Beer" song:
  *
- * @param {number} num
- * @return {any}
+ *  '99 bottles of beer on the wall, 99 bottles of beer.'
+ *  'Take one down and pass it around, 98 bottles of beer on the wall.'
+ *  '98 bottles of beer on the wall, 98 bottles of beer.'
+ *  'Take one down and pass it around, 97 bottles of beer on the wall.'
+ *  ...
+ *  '1 bottle of beer on the wall, 1 bottle of beer.'
+ *  'Take one down and pass it around, no more bottles of beer on the wall.'
+ *  'No more bottles of beer on the wall, no more bottles of beer.'
+ *  'Go to the store and buy some more, 99 bottles of beer on the wall.'
  *
- * @example
- *   2 =>  2
- *   3 => 'Fizz'
- *   5 => 'Buzz'
- *   4 => 4
- *  15 => 'FizzBuzz'
- *  20 => 'Buzz'
- *  21 => 'Fizz'
+ * See the full text at
+ * http://99-bottles-of-beer.net/lyrics.html
+ *
+ * NOTE: Please try to complete this task faster then original song finished:
+ * https://www.youtube.com/watch?v=Z7bmyjxJuVY   :)
+ *
+ *
+ * @return {Iterable.<string>}
  *
  */
-function getFizzBuzz(num) {
-    if (num % 3 === 0 && num % 5 === 0) return 'FizzBuzz'; else if (num % 3 === 0) return 'Fizz'; else if (num % 5 === 0) return 'Buzz'; else return num;
+function* get99BottlesOfBeer() {
+    throw new Error('Not implemented');
 }
 
 
 /**
- * Returns the factorial of the specified integer n.
+ * Returns the Fibonacci sequence:
+ *   0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, ...
  *
- * @param {number} n
- * @return {number}
+ * See more at: https://en.wikipedia.org/wiki/Fibonacci_number
  *
- * @example:
- *   1  => 1
- *   5  => 120
- *   10 => 3628800
- */
-function getFactorial(n) {
-    if (n <= 1) return 1;
-    return n * getFactorial(n - 1);
-}
-
-
-/**
- * Returns the sum of integer numbers between n1 and n2 (inclusive).
- *
- * @param {number} n1
- * @param {number} n2
- * @return {number}
- *
- * @example:
- *   1,2   =>  3  ( = 1+2 )
- *   5,10  =>  45 ( = 5+6+7+8+9+10 )
- *   -1,1  =>  0  ( = -1 + 0 + 1 )
- */
-function getSumBetweenNumbers(n1, n2) {
-    let sum = n1;
-    while (n1 !== n2) {
-        sum += n2;
-        n2--;
-    }
-    return sum;
-}
-
-
-/**
- * Returns true, if a triangle can be built with the specified sides a,b,c and false in any other ways.
- *
- * @param {number} a
- * @param {number} b
- * @param {number} c
- * @return {bool}
- *
- * @example:
- *   1,2,3    =>  false
- *   3,4,5    =>  true
- *   10,1,1   =>  false
- *   10,10,10 =>  true
- */
-function isTriangle(a, b, c) {
-    if ((a + b > c) && (b + c > a) && (a + c > b)) return true; else return false;
-}
-
-
-/**
- * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
- * Each rectangle representing by object
- *  {
- *     top: 5,
- *     left: 5,
- *     width: 20,
- *     height: 10
- *  }
- *
- *  (5;5)
- *     -------------
- *     |           |
- *     |           |  height = 10
- *     -------------
- *        width=20
- *
- * NOTE: Please use canvas coordinate space (https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#The_grid),
- * it differs from Cartesian coordinate system.
- *
- * @param {object} rect1
- * @param {object} rect2
- * @return {bool}
- *
- * @example:
- *   { top: 0, left: 0, width: 10, height: 10 },
- *   { top: 5, left: 5, width: 20, height: 20 }    =>  true
- *
- *   { top: 0, left: 0, width: 10, height: 10 },
- *   { top:20, left:20, width: 20, height: 20 }    =>  false
+ * @return {Iterable.<number>}
  *
  */
-function doRectanglesOverlap(rect1, rect2) {
-    return (rect2.top < rect1.top + rect1.height && rect2.left < rect1.left + rect1.width);
+function* getFibonacciSequence() {
+    throw new Error('Not implemented');
 }
 
 
 /**
- * Returns true, if point lies inside the circle, otherwise false.
- * Circle is an object of
- *  {
- *     center: {
- *       x: 5,       
- *       y: 5
- *     },        
- *     radius: 20
- *  }
+ * Traverses a tree using the depth-first strategy
+ * See details: https://en.wikipedia.org/wiki/Depth-first_search
  *
- * Point is object of
- *  {
- *     x: 5,
- *     y: 5
- *  }
+ * Each node have child nodes in node.children array.
+ * The leaf nodes do not have 'children' property.
  *
- * @param {object} circle
- * @param {object} point
- * @return {bool}
- *
- * @example:
- *   { center: { x:0, y:0 }, radius:10 },  { x:0, y:0 }     => true
- *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
- *
- */
-function isInsideCircle(circle, point) {
-    return (circle.radius > Math.hypot(
-        (circle.center.x < point.x) ? point.x - circle.center.x : circle.center.x - point.x,
-        (circle.center.y < point.y) ? point.y - circle.center.y : circle.center.y - point.y
-    ));
-}
-
-
-/**
- * Returns the first non repeated char in the specified strings otherwise returns null.
- *
- * @param {string} str
- * @return {string}
- *
- * @example:
- *   'The quick brown fox jumps over the lazy dog' => 'T'
- *   'abracadabra'  => 'c'
- *   'entente' => null
- */
-function findFirstSingleChar(str) {
-    let firstalone = null;
-    let strOfReapeated = '';
-    lab:for (let i = 0; i < str.length; i++) {
-        for (let j = i + 1; j < str.length; j++) {
-            if (str[i] === str[j]) {
-                strOfReapeated = strOfReapeated + str[i];
-                continue lab;
-            }
-        }
-        if (strOfReapeated.indexOf(str[i]) === -1) {
-            firstalone = str[i];
-            break;
-        }
-    }
-    return firstalone;
-}
-
-
-/**
- * Returns the string representation of math interval, specified by two points and include / exclude flags.
- * See the details: https://en.wikipedia.org/wiki/Interval_(mathematics)
- *
- * Please take attention, that the smaller number should be the first in the notation
- *
- * @param {number} a
- * @param {number} b
- * @param {bool} isStartIncluded
- * @param {bool} isEndIncluded
- * @return {string}
- *
- * @example
- *   0, 1, true, true   => '[0, 1]'
- *   0, 1, true, false  => '[0, 1)'
- *   0, 1, false, true  => '(0, 1]'
- *   0, 1, false, false => '(0, 1)'
- * Smaller number has to be first :
- *   5, 3, true, true   => '[3, 5]'
- *
- */
-function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    let reprStr = '';
-    if (isStartIncluded) reprStr += `[`; else  reprStr += `(`;
-    if (a < b) reprStr += `${a}, ${b}`; else reprStr += `${b}, ${a}`;
-    if (isEndIncluded) reprStr += `]`; else  reprStr += `)`;
-    return reprStr;
-}
-
-
-/**
- * Reverse the specified string (put all chars in reverse order)
- *
- * @param {string} str
- * @return {string}
- *
- * @example:
- * 'The quick brown fox jumps over the lazy dog' => 'god yzal eht revo spmuj xof nworb kciuq ehT'
- * 'abracadabra' => 'arbadacarba'
- * 'rotator' => 'rotator'
- * 'noon' => 'noon'
- */
-function reverseString(str) {
-    return str.split('').reverse().join('');
-}
-
-
-/**
- * Reverse the specified integer number (put all digits in reverse order)
- *
- * @param {number} num
- * @return {number}
- *
- * @example:
- *   12345 => 54321
- *   1111  => 1111
- *   87354 => 45378
- *   34143 => 34143
- */
-function reverseInteger(num) {
-    return num.toString().split('').reverse().join('');
-}
-
-
-function isCreditCardNumber(ccn) {
-    //throw new Error('Not implemented');
-    var f = function(n) {
-        n*=2;
-        return n>9 ? n-9 : n;
-    };
-
-    var ccnArr = ccn.toString().match(/\d/g).map(x => parseInt(x));
-    var x = ccnArr.slice(-1)[0];
-    var digits = ccnArr.slice(0,-1);
-    var sum = digits.reduce((prev, elem, i) => { return prev += ((digits.length - i)%2 ? f(elem) : elem); }, 0);
-    var residue = sum % 10;
-    var newX = residue === 0 ? 0 : 10 - residue;
-    return newX === x;
-}
-
-
-/**
- * Returns the digital root of integer:
- *   step1 : find sum of all digits
- *   step2 : if sum > 9 then goto step1 otherwise return the sum
- *
- * @param {number} n
- * @return {number}
- *
- * @example:
- *   12345 ( 1+2+3+4+5 = 15, 1+5 = 6) => 6
- *   23456 ( 2+3+4+5+6 = 20, 2+0 = 2) => 2
- *   10000 ( 1+0+0+0+0 = 1 ) => 1
- *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
- */
-function getDigitalRoot(num) {
-    var sum = function(value) {
-        return value.toString().split('').reduce((prev, curr) => { return prev + parseInt(curr); }, 0);
-    }
-
-    var result = num;
-    do {
-        result = sum(result);
-    } while(result > 9);
-
-    return result;
-}
-
-
-/**
- * Returns true if the specified string has the balanced brackets and false otherwise.
- * Balanced means that is, whether it consists entirely of pairs of opening/closing brackets
- * (in that order), none of which mis-nest.
- * Brackets include [],(),{},<>
- *
- * @param {string} str
- * @return {boolean}
- *
- * @example:
- *   '' => true
- *   '[]'  => true
- *   '{}'  => true
- *   '()   => true
- *   '[[]' => false
- *   ']['  => false
- *   '[[][][[]]]' => true
- *   '[[][]][' => false
- *   '{)' = false
- *   '{[(<{[]}>)]}' = true
- */
-function isBracketsBalanced(str) {
-    while(true) {
-        var newStr = str.replace(/<>|\[\]|\{\}|\(\)/, '');
-        if(newStr === str)
-            return newStr.length === 0;
-        str = newStr;
-    }
-}
-
-
-/**
- * Returns the human readable string of time period specified by the start and end time.
- * The result string should be constrcuted using the folliwing rules:
- *
- * ---------------------------------------------------------------------
- *   Difference                 |  Result
- * ---------------------------------------------------------------------
- *    0 to 45 seconds           |  a few seconds ago
- *   45 to 90 seconds           |  a minute ago
- *   90 seconds to 45 minutes   |  2 minutes ago ... 45 minutes ago
- *   45 to 90 minutes           |  an hour ago
- *  90 minutes to 22 hours      |  2 hours ago ... 22 hours ago
- *  22 to 36 hours              |  a day ago
- *  36 hours to 25 days         |  2 days ago ... 25 days ago
- *  25 to 45 days               |  a month ago
- *  45 to 345 days              |  2 months ago ... 11 months ago
- *  345 to 545 days (1.5 years) |  a year ago
- *  546 days+                   |  2 years ago ... 20 years ago
- * ---------------------------------------------------------------------
- *
- * @param {Date} startDate
- * @param {Date} endDate
- * @return {string}
- *
- * @example
- *   Date('2000-01-01 01:00:00.100'), Date('2000-01-01 01:00:00.200')  => 'a few seconds ago'
- *   Date('2000-01-01 01:00:00.100'), Date('2000-01-01 01:00:05.000')  => '5 minutes ago'
- *   Date('2000-01-01 01:00:00.100'), Date('2000-01-02 03:00:05.000')  => 'a day ago'
- *   Date('2000-01-01 01:00:00.100'), Date('2015-01-02 03:00:05.000')  => '15 years ago'
- *
- */
-function timespanToHumanString(startDate, endDate) {
-    function Span(start, end, f) {
-        this.has = function(span) {
-            return start < span && span <= end;
-        };
-
-        this.get = function(span) {
-            return f(span);
-        };
-    }
-
-    const HOUR = 60*60;
-    const DAY = 60*60*24;
-    const MONTH = 60*60*24*30;
-    const YEAR = 60*60*24*365;
-
-    var getTime = (d) => (new Date(d)).getTime();
-    var timeSpan = (getTime(endDate) - getTime(startDate))/1000;
-
-    var spans = [
-        new Span(-0, 45, x => 'a few seconds ago'),
-        new Span(45, 90, x => 'a minute ago' ),
-        new Span(90, 2*60, x => `${Math.ceil(x/60)} minutes ago`),
-        new Span(2*60, 45*60, x => `${Math.floor(x/60)} minutes ago`),
-        new Span(45*60, 90*60, x => `an hour ago`),
-        new Span(90*60, 2*HOUR, x => `${Math.ceil(x/HOUR)} hours ago`),
-        new Span(2*HOUR, 4.5*HOUR, x => `${Math.floor(x/HOUR)} hours ago`),
-        new Span(4.5*HOUR, 22*HOUR, x => `${Math.ceil(x/HOUR)} hours ago`),
-        new Span(22*HOUR, 36*HOUR, x => `a day ago`),
-        new Span(36*HOUR, 2*DAY, x => `${Math.ceil(x/DAY)} days ago`),
-        new Span(2*DAY, 25*DAY, x => `${Math.floor(x/DAY)} days ago`),
-        new Span(25*DAY, 45*DAY, x => `a month ago`),
-        new Span(45*DAY, 340*DAY, x => `${Math.ceil(x/MONTH)} months ago`),
-        new Span(340*DAY, 345*DAY, x => `${Math.floor(x/MONTH)} months ago`),
-        new Span(345*DAY, 545*DAY, x => `a year ago`),
-        new Span(546*DAY, Infinity, x => `${Math.floor(x/YEAR)} years ago`),
-    ];
-
-    return spans.find(x => x.has(timeSpan)).get(timeSpan);
-}
-
-
-/**
- * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
- * See more about
- * https://en.wikipedia.org/wiki/Binary_number
- * https://en.wikipedia.org/wiki/Ternary_numeral_system
- * https://en.wikipedia.org/wiki/Radix
- *
- * @param {number} num
- * @param {number} n, radix of the result
- * @return {string}
- *
- * @example:
- *   1024, 2  => '10000000000'
- *   6561, 3  => '100000000'
- *    365, 2  => '101101101'
- *    365, 3  => '111112'
- *    365, 4  => '11231'
- *    365, 10 => '365'
- */
-function toNaryString(num, n) {
-    var result = '';
-    while(num !== 0) {
-        result = (num % n) + result;
-        num = Math.floor( num/n );
-    }
-    return result;
-}
-
-
-/**
- * Returns the commom directory path for specified array of full filenames.
- *
- * @param {array} pathes
- * @return {string}
- *
- * @example:
- *   ['/web/images/image1.png', '/web/images/image2.png']  => '/web/images/'
- *   ['/web/assets/style.css', '/web/scripts/app.js',  'home/setting.conf'] => ''
- *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
- *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
- */
-function getCommonDirectoryPath(pathes) {
-    var pathesArr = pathes.map(x => x.split('/'));
-    pathesArr.sort((a,b) => a.length - b.length);
-    var theShortest = pathesArr[0];
-    pathesArr.splice(0, 1);
-    var res = [];
-    var i = 0;
-    while(pathesArr.every(x => x[i] === theShortest[i])) {
-        res.push(theShortest[i++]+'/');
-    };
-    return res.join('');
-}
-
-
-/**
- * Returns the product of two specified matrixes.
- * See details: https://en.wikipedia.org/wiki/Matrix_multiplication
- *
- * @param {array} m1
- * @param {array} m2
- * @return {array}
- *
- * @example:
- *   [[ 1, 0, 0 ],       [[ 1, 2, 3 ],           [[ 1, 2, 3 ],
- *    [ 0, 1, 0 ],   X    [ 4, 5, 6 ],     =>     [ 4, 5, 6 ],
- *    [ 0, 0, 1 ]]        [ 7, 8, 9 ]]            [ 7, 8, 9 ]]
- *
- *                        [[ 4 ],
- *   [[ 1, 2, 3]]    X     [ 5 ],          =>     [[ 32 ]]
- *                         [ 6 ]]
- *
- */
-function getMatrixProduct(m1, m2) {
-    var rowsM1 = m1.length,
-        rowsM2 = m2.length,
-        colsM2 = m2[0].length,
-        result = Array.from( { length: rowsM1 }, x => [] );
-
-    for (var c_m2 = 0; c_m2 < colsM2; c_m2++) {
-        for (var r_m1 = 0; r_m1 < rowsM1; r_m1++) {
-            var temp = 0;
-            for (var r_m2 = 0; r_m2 < rowsM2; r_m2++) {
-                temp += m1[r_m1][r_m2]*m2[r_m2][c_m2];
-            }
-            result[r_m1][c_m2] = temp;
-        }
-    }
-
-    return result;
-}
-
-
-/**
- * Returns the evaluation of the specified tic-tac-toe position.
- * See the details: https://en.wikipedia.org/wiki/Tic-tac-toe
- *
- * Position is provides as 3x3 array with the following values: 'X','0', undefined
- * Function should return who is winner in the current position according to the game rules.
- * The result can be: 'X','0',undefined
- *
- * @param {array} position
- * @return {string}
- *
+ * @params {object} root the tree root
+ * @return {Iterable.<object>} the sequence of all tree nodes in depth-first order
  * @example
  *
- *   [[ 'X',   ,'0' ],
- *    [    ,'X','0' ],       =>  'X'
- *    [    ,   ,'X' ]]
+ *   var node1 = { n:1 }, node2 = { n:2 }, node3 = { n:3 }, node4 = { n:4 },
+ *       node5 = { n:5 }, node6 = { n:6 }, node7 = { n:7 }, node8 = { n:8 };
+ *   node1.children = [ node2, node6, node7 ];
+ *   node2.children = [ node3, node4 ];
+ *   node4.children = [ node5 ];
+ *   node7.children = [ node8 ];
  *
- *   [[ '0','0','0' ],
- *    [    ,'X',    ],       =>  '0'
- *    [ 'X',   ,'X' ]]
+ *     source tree (root = 1):
+ *            1
+ *          / | \
+ *         2  6  7
+ *        / \     \            =>    { 1, 2, 3, 4, 5, 6, 7, 8 }
+ *       3   4     8
+ *           |
+ *           5
  *
- *   [[ '0','X','0' ],
- *    [    ,'X',    ],       =>  undefined
- *    [ 'X','0','X' ]]
- *
- *   [[    ,   ,    ],
- *    [    ,   ,    ],       =>  undefined
- *    [    ,   ,    ]]
+ *  depthTraversalTree(node1) => node1, node2, node3, node4, node5, node6, node7, node8
  *
  */
-function evaluateTicTacToePosition(position) {
-    let combinations = [
-        [ 0 , 1 , 2 ],
-        [ 3 , 4 , 5 ],
-        [ 6 , 7 , 8 ],
-        [ 0 , 3 , 6 ],
-        [ 1 , 4 , 7 ],
-        [ 2 , 5 , 8 ],
-        [ 0 , 4 , 8 ],
-        [ 2 , 4 , 6 ]
-    ];
-
-    let getField = function(num) {
-        let row = Math.floor(num / 3);
-        let col = num % 3;
-        return position[row][col];
-    }
-
-    let tryConmbin = function(combin) {
-        var valuesFields = combin.map(x => getField(x));
-        let every = s => valuesFields.every( x => x === s);
-        if( every('X') )
-            return 'X';
-        if( every('0') )
-            return '0';
-        return undefined;
-    }
-
-    let result = undefined;
-
-    let handleCombin = function(combin) {
-        result = tryConmbin(combin);
-        return result;
-    }
-
-    combinations.find(handleCombin);
-    return result;
+function* depthTraversalTree(root) {
+    throw new Error('Not implemented');
 }
+
+
+/**
+ * Traverses a tree using the breadth-first strategy
+ * See details: https://en.wikipedia.org/wiki/Breadth-first_search
+ *
+ * Each node have child nodes in node.children array.
+ * The leaf nodes do not have 'children' property.
+ *
+ * @params {object} root the tree root
+ * @return {Iterable.<object>} the sequence of all tree nodes in breadth-first order
+ * @example
+ *     source tree (root = 1):
+ *
+ *            1
+ *          / | \
+ *         2  3  4
+ *        / \     \            =>    { 1, 2, 3, 4, 5, 6, 7, 8 }
+ *       5   6     7
+ *           |
+ *           8
+ *
+ */
+function* breadthTraversalTree(root) {
+    throw new Error('Not implemented');
+}
+
+
+/**
+ * Merges two yield-style sorted sequences into the one sorted sequence.
+ * The result sequence consists of sorted items from source iterators.
+ *
+ * @params {Iterable.<number>} source1
+ * @params {Iterable.<number>} source2
+ * @return {Iterable.<number>} the merged sorted sequence
+ *
+ * @example
+ *   [ 1, 3, 5, ... ], [2, 4, 6, ... ]  => [ 1, 2, 3, 4, 5, 6, ... ]
+ *   [ 0 ], [ 2, 4, 6, ... ]  => [ 0, 2, 4, 6, ... ]
+ *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
+ */
+function* mergeSortedSequences(source1, source2) {
+    throw new Error('Not implemented');
+}
+
 
 module.exports = {
-    getFizzBuzz: getFizzBuzz,
-    getFactorial: getFactorial,
-    getSumBetweenNumbers: getSumBetweenNumbers,
-    isTriangle: isTriangle,
-    doRectanglesOverlap: doRectanglesOverlap,
-    isInsideCircle: isInsideCircle,
-    findFirstSingleChar: findFirstSingleChar,
-    getIntervalString: getIntervalString,
-    reverseString: reverseString,
-    reverseInteger: reverseInteger,
-    isCreditCardNumber: isCreditCardNumber,
-    getDigitalRoot: getDigitalRoot,
-    isBracketsBalanced: isBracketsBalanced,
-    timespanToHumanString: timespanToHumanString,
-    toNaryString: toNaryString,
-    getCommonDirectoryPath: getCommonDirectoryPath,
-    getMatrixProduct: getMatrixProduct,
-    evaluateTicTacToePosition: evaluateTicTacToePosition
+    get99BottlesOfBeer: get99BottlesOfBeer,
+    getFibonacciSequence: getFibonacciSequence,
+    depthTraversalTree: depthTraversalTree,
+    breadthTraversalTree: breadthTraversalTree,
+    mergeSortedSequences: mergeSortedSequences
 };
