@@ -17,8 +17,42 @@
  *  ]
  */
 function createCompassPoints() {
-    throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
+    //throw new Error('Not implemented');
+    let sides = ['N','E','S','W'];  // use array of cardinal directions only!
+
+    let result = [];
+
+    function forPair(arr, f) {
+        const len = arr.length;
+        for(let prev = 0, next = 1 ; next < len ; prev++, next++ ) {
+            f(arr[prev], arr[next], prev, next);
+        }
+        let high = len - 1;
+        f(arr[high], arr[0], high, 0);
+    }
+
+    function push(name, az) {
+        result.push({ abbreviation: name, azimuth: az });
+    }
+
+    let direction = (function () {
+        let addAngle = 360/32;
+        let counter = -addAngle;
+        return function () { return counter += addAngle; }
+    })();
+
+    forPair(sides, (p, n, ip) => {
+        let mix = ip%2 ? `${n}${p}` : `${p}${n}` ;
+        push(p, direction());
+        push(`${p}b${n}`, direction());
+        push(`${p}${mix}` , direction());
+        push(`${mix}b${p}`, direction());
+        push(`${mix}`     , direction());
+        push(`${mix}b${n}`, direction());
+        push(`${n}${mix}` , direction());
+        push(`${n}b${p}`, direction());
+    });
+    return result;
 }
 
 
@@ -56,7 +90,86 @@ function createCompassPoints() {
  *   'nothing to do' => 'nothing to do'
  */
 function* expandBraces(str) {
-    throw new Error('Not implemented');
+    function List(arrElems, base, pushNext, all) {
+
+        // It need replace to RegExp
+        let arr = arrElems.split(',');
+        for(let p = 0, n = 1, len = arr.length ; n < len ; p++, n++ ){
+            if(arr[p].indexOf('{') !== -1) {
+                arr[p] = arr[p] + ','+ arr[n];
+                arr.splice(n, 1);
+                p++;
+                n++;
+            }
+        }
+
+        let curI = 0;
+        let len = arr.length;
+        let nextFromItem = function() {
+            curI++;
+            if(curI === len) {
+                curI = 0;
+                pushNext();
+            }
+        };
+
+        let getList = function (target, nextFromItem) {
+            let re = '{((.*?{.*?}.*?)*||[^{])*?}';
+            let bs = target.match(re)[0];
+            let arrItems = bs.slice(1,-1);
+            return new List(arrItems, bs, nextFromItem, target);
+        };
+
+        let items = arr.map(
+            x => x.indexOf('{') === -1
+                ? new Item(x, nextFromItem )
+                : getList(x, nextFromItem )
+        );
+
+        this.current = function() { return (s) => {
+            let newVal = items[curI].current()();
+            let target = s
+                ? s
+                : all;
+            return target.replace(base, newVal);
+        };
+        };
+        this.next = function() {
+            items[curI].next();
+        }
+    }
+
+    function Item(elem, nt) {
+        this.current = function() { return s => elem; };
+        this.next = nt;
+    }
+
+    let notExit = true;
+
+    let mainBrackets = [];
+
+    let add = function(e) {
+        let fun = mainBrackets.length === 0
+            ? () => notExit = false
+            : mainBrackets[mainBrackets.length - 1].next;
+        mainBrackets.push(new List(e.slice(1, -1), e, fun));
+    };
+
+    let re = '{((.*?{.*?}.*?)*||[^{])*?}';
+    let arrElems =  str.match(new RegExp(re, 'g'));
+    if(arrElems) {
+        arrElems.forEach(add);
+
+        let i = 0;
+        let last = mainBrackets[mainBrackets.length - 1];
+        do {
+            let res = mainBrackets.reduce((p,e) => { return e.current()(p); }, str);
+            last.next();
+            yield res;
+        } while(notExit && i++ < 20);
+    }
+    else
+        yield str;
 }
 
 
@@ -88,7 +201,24 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    throw new Error('Not implemented');
+    //throw new Error('Not implemented');
+    let result = Array.from( { length: n } ).map(x => Array.from( { length: n } ).map(y => 0));
+
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if ((i + j) < n) {
+                result[i][j] = 0.5 * (i + j + 1) * (i + j + 2) + ((i + j) % 2 === 0 ? -i : -j) - 1;
+            }
+            else {
+                let p = n - i - 1;
+                let q = n - j - 1;
+                result[i][j] = n * n + 1 - (0.5 * (p + q + 1) * (p + q + 2) + ((p + q) % 2 === 0 ? -p : -q)) - 1;
+            }
+        }
+    }
+
+    return result;
 }
 
 
@@ -113,7 +243,18 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    throw new Error('Not implemented');
+    let douplets = dominoes.filter(x => x[0] === x[1]).map(x => x[0]);
+    let arr = dominoes.join();
+    let countOdd = 0;
+    let i = 0;
+    do {
+        let countNum = arr.match(new RegExp(i, 'g'));
+        countNum === null && !(countNum = []);
+        if(countNum.length === 2 && douplets.some(x => x === i))
+            countOdd = 3;
+        countNum.length%2 && countOdd++;
+    } while (++i < 7 && countOdd < 3);
+    return countOdd < 3;
 }
 
 
@@ -137,7 +278,29 @@ function canDominoesMakeRow(dominoes) {
  * [ 1, 2, 4, 5]          => '1,2,4,5'
  */
 function extractRanges(nums) {
-    throw new Error('Not implemented');
+    //throw new Error('Not implemented');
+    let result = [];
+    let subRes = [];
+    let expected = nums[0];
+
+    let handler = x => {
+        if(expected === x) {
+            subRes.push(x);
+        } else {
+            subResToResult();
+            subRes = [x];
+        }
+        expected = ++x;
+    };
+
+    nums.forEach(handler);
+    subResToResult();
+
+    return result.join();
+
+    function subResToResult() {
+        result.push( subRes.length < 3 ? subRes.join(',') : `${subRes.shift()}-${subRes.pop()}`);
+    }
 }
 
 module.exports = {
