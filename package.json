@@ -3,6 +3,7 @@
   "version": "0.9.1",
   "description": "JS training tasks",
   "scripts": {
+    "start":"/home/user07/.nvm/versions/node/v8.4.0/bin/node /home/user07/WebstormProjects/js-assignments/task/04-arrays-tasks.js",
     "test": "./node_modules/.bin/mocha",
     "test-debug": "./node_modules/.bin/mocha --debug-brk"
   },
