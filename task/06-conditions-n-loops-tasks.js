@@ -30,7 +30,7 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+    return (num % 3 === 0 && num % 5 === 0 && 'FizzBuzz') || (num % 3 === 0 && 'Fizz') || ( num % 5 === 0 && 'Buzz') || num
 }
 
 
@@ -46,7 +46,8 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+    if (n <= 1) return n;
+    return n * getFactorial(n - 1)
 }
 
 
@@ -63,7 +64,12 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+    let sum = 0;
+    while (n2 >= n1) {
+        sum += +n2;
+        n2--;
+    }
+    return sum
 }
 
 
@@ -81,8 +87,8 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+    return (a + b > c) && (a + c > b) && (c + b > a) || false
 }
 
 
@@ -119,7 +125,7 @@ function isTriangle(a,b,c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    return (rect2.top < rect1.top + rect1.height && rect2.left < rect1.left + rect1.width);
 }
 
 
@@ -150,7 +156,10 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+    return (circle.radius > Math.hypot(
+        (circle.center.x < point.x) ? point.x - circle.center.x : circle.center.x - point.x,
+        (circle.center.y < point.y) ? point.y - circle.center.y : circle.center.y - point.y
+    ));
 }
 
 
@@ -166,9 +175,22 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    throw new Error('Not implemented');
+    let firstAlone = null;
+    let strOfReapeated = '';
+    lab:for (let i = 0; i < str.length; i++) {
+        for (let j = i + 1; j < str.length; j++) {
+            if (str[i] === str[j]) {
+                strOfReapeated = strOfReapeated + str[i];
+                continue lab;
+            }
+        }
+        if (strOfReapeated.indexOf(str[i]) === -1) {
+            firstAlone = str[i];
+            break;
+        }
+    }
+    return firstAlone;
 }
-
 
 /**
  * Returns the string representation of math interval, specified by two points and include / exclude flags.
@@ -192,7 +214,11 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let reprStr = '';
+    if (isStartIncluded) reprStr += `[`; else  reprStr += `(`;
+    if (a < b) reprStr += `${a}, ${b}`; else reprStr += `${b}, ${a}`;
+    if (isEndIncluded) reprStr += `]`; else  reprStr += `)`;
+    return reprStr;
 }
 
 
@@ -209,10 +235,8 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    return str.split('').reverse().join('')
 }
-
-
 /**
  * Reverse the specified integer number (put all digits in reverse order)
  *
@@ -226,7 +250,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    return num.toString().split('').reverse().join('')
 }
 
 
@@ -443,15 +467,15 @@ module.exports = {
     doRectanglesOverlap: doRectanglesOverlap,
     isInsideCircle: isInsideCircle,
     findFirstSingleChar: findFirstSingleChar,
-    getIntervalString : getIntervalString,
+    getIntervalString: getIntervalString,
     reverseString: reverseString,
     reverseInteger: reverseInteger,
     isCreditCardNumber: isCreditCardNumber,
     getDigitalRoot: getDigitalRoot,
     isBracketsBalanced: isBracketsBalanced,
-    timespanToHumanString : timespanToHumanString,
+    timespanToHumanString: timespanToHumanString,
     toNaryString: toNaryString,
     getCommonDirectoryPath: getCommonDirectoryPath,
     getMatrixProduct: getMatrixProduct,
-    evaluateTicTacToePosition : evaluateTicTacToePosition
+    evaluateTicTacToePosition: evaluateTicTacToePosition
 };
