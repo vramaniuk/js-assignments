@@ -46,11 +46,16 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    if (n >170) return Number.POSITIVE_INFINITY;
+    // if (n >170) return Number.POSITIVE_INFINITY;
     if (n <= 1) return 1;
+    try{
     return n * getFactorial(n - 1);
+    }
+    catch(e) {
+        return Number.POSITIVE_INFINITY;
+    }
 }
-console.log(getFactorial(170));
+console.log(getFactorial(124564654564646));
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
