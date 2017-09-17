@@ -46,10 +46,11 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    if (n <= 1) return n;
-    return n * getFactorial(n - 1)
+    if (n >170) return Number.POSITIVE_INFINITY;
+    if (n <= 1) return 1;
+    return n * getFactorial(n - 1);
 }
-
+console.log(getFactorial(170));
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -215,9 +216,9 @@ function findFirstSingleChar(str) {
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
     let reprStr = '';
-    if (isStartIncluded) reprStr += `[`; else  reprStr += `(`;
+    if (isStartIncluded) reprStr += `[`; else reprStr += `(`;
     if (a < b) reprStr += `${a}, ${b}`; else reprStr += `${b}, ${a}`;
-    if (isEndIncluded) reprStr += `]`; else  reprStr += `)`;
+    if (isEndIncluded) reprStr += `]`; else reprStr += `)`;
     return reprStr;
 }
 
@@ -237,6 +238,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
 function reverseString(str) {
     return str.split('').reverse().join('')
 }
+
 /**
  * Reverse the specified integer number (put all digits in reverse order)
  *
