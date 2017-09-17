@@ -5,7 +5,7 @@
   "scripts": {
     "start": "/home/vskd/.nvm/versions/node/v8.4.0/bin/node /home/vskd/WebstormProjects/js-assignments/task/01-strings-tasks.js",
     "test": "./node_modules/.bin/mocha",
-    "test-debug": "./node_modules/.bin/mocha --debug-brk"
+    "test-debug": "/home/vskd/.nvm/versions/node/v8.4.0/bin/node --inspect-brk"
   },
   "author": "aorgish",
   "license": "MIT",

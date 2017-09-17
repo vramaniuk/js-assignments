@@ -48,14 +48,15 @@ function getFizzBuzz(num) {
 function getFactorial(n) {
     // if (n >170) return Number.POSITIVE_INFINITY;
     if (n <= 1) return 1;
-    try{
-    return n * getFactorial(n - 1);
+    try {
+        return n * getFactorial(n - 1);
     }
-    catch(e) {
+    catch (e) {
         return Number.POSITIVE_INFINITY;
     }
 }
-console.log(getFactorial(124564654564646));
+
+// console.log(getFactorial(124564654564646));
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -282,7 +283,26 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    if (/[^0-9-\s]+/.test(ccn)) return false;
+
+    let nCheck = 0;
+    let nDigit = 0;
+    let bEven = false;
+    ccn = ccn.toString().replace(/\D/g, "");
+
+    for (let n = ccn.length - 1; n >= 0; n--) {
+        let cDigit = ccn.charAt(n),
+            nDigit = parseInt(cDigit, 10);
+
+        if (bEven) {
+            if ((nDigit *= 2) > 9) nDigit -= 9;
+        }
+
+        nCheck += nDigit;
+        bEven = !bEven;
+    }
+
+    return (nCheck % 10) === 0;
 }
 
 
@@ -301,9 +321,15 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let sum = function (value) {
+        return Array.from(value.toString()).reduce((prev, curr) => prev + parseInt(curr), 0);
+    };
+    let result = num;
+    do {
+        result = sum(result);
+    } while (result > 9);
+    return result;
 }
-
 
 /**
  * Returns true if the specified string has the balanced brackets and false otherwise.
@@ -327,9 +353,15 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    while(true) {
+        const newStr = str.replace(/<>|\[]|{}|\(\)/, '');
+        // console.log(newStr);
+        if(newStr === str)
+            return newStr.length === 0;
+        str = newStr;
+    }
 }
-
+// console.log(isBracketsBalanced('[[][][[]]]'));
 
 /**
  * Returns the human readable string of time period specified by the start and end time.
