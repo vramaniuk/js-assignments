@@ -3,9 +3,9 @@
   "version": "0.9.1",
   "description": "JS training tasks",
   "scripts": {
-    "start": "/home/vskd/.nvm/versions/node/v8.4.0/bin/node /home/vskd/WebstormProjects/js-assignments/task/01-strings-tasks.js",
+    "start": "/home/user07/.nvm/versions/node/v8.4.0/bin/node /home/user07/WebstormProjects/js-assignments/task/06-conditions-n-loops-tasks.js",
     "test": "./node_modules/.bin/mocha",
-    "test-debug": "/home/vskd/.nvm/versions/node/v8.4.0/bin/node --inspect-brk"
+    "test-debug": "/home/user07/.nvm/versions/node/v8.4.0/bin/node --inspect-brk"
   },
   "author": "aorgish",
   "license": "MIT",
