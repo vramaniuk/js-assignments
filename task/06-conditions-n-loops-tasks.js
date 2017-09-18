@@ -46,21 +46,14 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    // if (n >170) return Number.POSITIVE_INFINITY;
-    // if (n <= 1) return 1;
-    try {
-        let fact=1;
-        while (n > 1){
-             fact =fact* (n--);
-        }
-        return fact;
+    let fact = 1;
+    while (n > 1) {
+        fact *= (n--);
     }
-    catch (e) {
-        return Number.POSITIVE_INFINITY;
-    }
+    return fact;
 }
 
-console.log(getFactorial(789));
+// console.log(getFactorial(5));
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -423,14 +416,15 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    var result = '';
-    while (num !== 0) {
-        result = (num % n) + result;
-        num = Math.floor(num / n);
-    }
-    return result;
+    // var result = '';
+    // while (num !== 0) {
+    //     result = (num % n) + result;
+    //     num = Math.floor(num / n);
+    // }
+    // return result;
+   return num.toString(n)
 }
-console.log(toNaryString(1024, 2));
+console.log(toNaryString(1024,2))
 
 /**
  * Returns the commom directory path for specified array of full filenames.
@@ -503,9 +497,25 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    return (position[0][0] === 'X' && position[1][1] === 'X' && position[2][2]=== 'X'&&'X'||
+           position[0][2] === 'X' && position[1][1] === 'X' && position[2][0]=== 'X'&&'X'||
+           position[0][0] === 'X' && position[0][1] === 'X' && position[0][2]=== 'X'&&'X'||
+           position[1][0] === 'X' && position[1][1] === 'X' && position[1][2]=== 'X'&&'X'||
+           position[2][0] === 'X' && position[2][1] === 'X' && position[2][2]=== 'X'&&'X'||
+           position[0][0] === 'X' && position[1][0] === 'X' && position[2][0]=== 'X'&&'X'||
+           position[0][1] === 'X' && position[1][1] === 'X' && position[2][1]=== 'X'&&'X'||
+           position[0][2] === 'X' && position[1][2] === 'X' && position[2][2]=== 'X'&&'X')||
+           (position[0][0] === '0' && position[1][1] === '0' && position[2][2]=== '0'&&'0'||
+           position[0][2] === '0' && position[1][1] === '0' && position[2][0]=== '0'&&'0'||
+           position[0][0] === '0' && position[0][1] === '0' && position[0][2]=== '0'&&'0'||
+           position[1][0] === '0' && position[1][1] === '0' && position[1][2]=== '0'&&'0'||
+           position[2][0] === '0' && position[2][1] === '0' && position[2][2]=== '0'&&'0'||
+           position[0][0] === '0' && position[1][0] === '0' && position[2][0]=== '0'&&'0'||
+           position[0][1] === '0' && position[1][1] === '0' && position[2][1]=== '0'&&'0'||
+           position[0][2] === '0' && position[1][2] === '0' && position[2][2]=== '0'&&'0')||undefined
 }
 
+// console.log(evaluateTicTacToePosition([['0', '0', '0'], ['X', '0', '0'], ['0', , '0']]));
 
 module.exports = {
     getFizzBuzz: getFizzBuzz,

@@ -32,7 +32,7 @@
  */
 function getRegexForGuid() {
 
-    return /^{[A-Fa-f0-9]{8}(-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12}}$/;
+    return /^{[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-([A-Fa-f0-9]{4})-[A-Fa-f0-9]{12}}$/;
 }
 
 
@@ -117,7 +117,7 @@ function getRegexForSSN() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
-    return new RegExp('(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])^[A-Za-z0-9]' + `{${minLength},}$`);
+    return new RegExp(`(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])^[A-Za-z0-9]{${minLength},}$`);
 }
 
 module.exports = {
