@@ -112,7 +112,7 @@ function getArrayOfStrings(arr) {
  */
 function removeFalsyValues(arr) {
     return arr.filter((x) => {
-        if (x)return x
+        if (x) return x
     });
 }
 
@@ -187,7 +187,7 @@ function getHead(arr, n) {
  *    [ 'a', 'b', 'c', 'd'], 3  => [ 'b', 'c', 'd' ]
  */
 function getTail(arr, n) {
-    return arr.slice(- n);
+    return arr.slice(-n);
 }
 
 
@@ -214,6 +214,7 @@ function getTail(arr, n) {
 function toCsvText(arr) {
     return arr.join('\n');
 }
+
 /**
  * Transforms the numeric array into the according array of squares:
  *   f(x) = x * x
@@ -246,8 +247,9 @@ function toArrayOfSquares(arr) {
  */
 function getMovingSum(arr) {
     function summa(arrToSum) {
-        return arrToSum.reduce((sum, cur)=>sum + cur)
+        return arrToSum.reduce((sum, cur) => sum + cur)
     }
+
     return arr.map(function (_, index) {
         return summa(arr.slice(0, index + 1));
     });
@@ -284,14 +286,15 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-    function multiplyElement(currentElem, index, resultElem = []) {
-        if (!index) return currentElem;
-        if (resultElem.length > index) return resultElem;
-        resultElem.push(currentElem);
-        return multiplyElement(currentElem, index, resultElem);
-    }
-    return arr.map((x, index) => multiplyElement(x, index)).reduce((elem1, elem2) => elem1.concat(elem2), []);
-}
+    // function multiplyElement(currentElem, index, resultElem = []) {
+    //     if (!index) return currentElem;
+    //     if (resultElem.length > index) return resultElem;
+    //     resultElem.push(currentElem);
+    //     return multiplyElement(currentElem, index, resultElem);
+    // }
+    //
+    // return arr.map((x, index) => multiplyElement(x, index)).reduce((elem1, elem2) => elem1.concat(elem2), []);
+    return arr.reduce((prev, curr, idx) =>  prev.concat(new Array(idx + 1).fill(curr)), []);}
 
 /**
  * Returns the 3 largest numbers from the specified array
@@ -311,9 +314,9 @@ function get3TopItems(arr) {
     let arrMax = [];
     arr.sort((a, b) => b - a)
         .map(x => {
-        if (countMax < 3) arrMax.push(x);
-        countMax++;
-    });
+            if (countMax < 3) arrMax.push(x);
+            countMax++;
+        });
     return arrMax;
 }
 
@@ -330,8 +333,10 @@ function get3TopItems(arr) {
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-    let countPozitive=0;
-    arr.map(x =>{if (x > 0) countPozitive++});
+    let countPozitive = 0;
+    arr.map(x => {
+        if (x > 0) countPozitive++
+    });
     return countPozitive;
 }
 
@@ -411,7 +416,9 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-    return arr.filter(x => {if (x === item) return '_'}).length;
+    return arr.filter(x => {
+        if (x === item) return '_'
+    }).length;
 }
 
 /**
@@ -503,6 +510,7 @@ function getIdentityMatrix(n) {
 
     return new Array(n).fill(0).map((_) => fillArray(n));
 }
+
 /**
  * Creates an array of integers from the specified start to end (inclusive)
  *
@@ -522,6 +530,7 @@ function getIntervalArray(start, end) {
     resArray = resArray.map(x => start++);
     return resArray;
 }
+
 /**
  * Returns array containing only unique values from the specified array.
  *
@@ -590,13 +599,14 @@ function group(array, keySelector, valueSelector) {
     // map.set('Belarus',[]);
     // map.set('Poland',[]);
     array.map((el) => {
-        map.set(keySelector(el),[])
+        map.set(keySelector(el), [])
     });
     array.map((el) => {
         map.set(keySelector(el), map.get(keySelector(el)).concat([valueSelector(el)]));
     });
     return map;
 }
+
 // console.log(group([
 //         { country: 'Belarus', city: 'Brest' },
 //         { country: 'Russia', city: 'Omsk' },
@@ -621,6 +631,7 @@ function group(array, keySelector, valueSelector) {
 function selectMany(arr, childrenSelector) {
     return arr.map(x => childrenSelector(x)).reduce((elem1, elem2) => elem1.concat(elem2), []);
 }
+
 // console.log(selectMany( ['one','two','three'], x=>x.split('')));
 /**
  * Returns an element from the multidimentional array by the specified indexes.

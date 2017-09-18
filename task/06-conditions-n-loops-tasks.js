@@ -30,7 +30,7 @@
  *
  */
 function getFizzBuzz(num) {
-    return (num % 3 === 0 && num % 5 === 0 && 'FizzBuzz') || (num % 3 === 0 && 'Fizz') || ( num % 5 === 0 && 'Buzz') || num
+    return (num % 3 === 0 && num % 5 === 0 && 'FizzBuzz') || (num % 3 === 0 && 'Fizz') || (num % 5 === 0 && 'Buzz') || num
 }
 
 
@@ -47,16 +47,20 @@ function getFizzBuzz(num) {
  */
 function getFactorial(n) {
     // if (n >170) return Number.POSITIVE_INFINITY;
-    if (n <= 1) return 1;
+    // if (n <= 1) return 1;
     try {
-        return n * getFactorial(n - 1);
+        let fact=1;
+        while (n > 1){
+             fact =fact* (n--);
+        }
+        return fact;
     }
     catch (e) {
         return Number.POSITIVE_INFINITY;
     }
 }
 
-// console.log(getFactorial(124564654564646));
+console.log(getFactorial(789));
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -184,7 +188,7 @@ function isInsideCircle(circle, point) {
 function findFirstSingleChar(str) {
     let firstAlone = null;
     let strOfReapeated = '';
-    lab:for (let i = 0; i < str.length; i++) {
+    lab: for (let i = 0; i < str.length; i++) {
         for (let j = i + 1; j < str.length; j++) {
             if (str[i] === str[j]) {
                 strOfReapeated = strOfReapeated + str[i];
@@ -353,10 +357,10 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    while(true) {
+    while (true) {
         const newStr = str.replace(/<>|\[]|{}|\(\)/, '');
         // console.log(newStr);
-        if(newStr === str)
+        if (newStr === str)
             return newStr.length === 0;
         str = newStr;
     }
@@ -419,9 +423,14 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+    var result = '';
+    while (num !== 0) {
+        result = (num % n) + result;
+        num = Math.floor(num / n);
+    }
+    return result;
 }
-
+console.log(toNaryString(1024, 2));
 
 /**
  * Returns the commom directory path for specified array of full filenames.
