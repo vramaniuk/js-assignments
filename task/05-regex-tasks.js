@@ -73,10 +73,10 @@ function getRegexForPitSpot() {
  * @return {RegExp}
  */
 function getRegexForIPv4() {
-    return /^(?!([2-9][5-9][6-9]|[3-9][0-9][0-9]))([0-9]|[0-9][0-9]|[0-9][0-9][0-9])(\.([0-9]|[0-9][0-9]|[0-9][0-9][0-9])){3}$/
+    return /^(?![2-9][5-9][6-9]|[3-9]\d\d)(\d|\d\d|\d\d\d)(\.(\d|\d\d|\d\d\d)){3}$/
 }
 
-
+console.log(getRegexForIPv4().test('0.0.0.0'));
 /**
  * Returns the regexp that matches all SSN (Social Security Number) codes in
  * 'XXX-XX-XXXX' format where X is digit, where each group can't be all zeros
