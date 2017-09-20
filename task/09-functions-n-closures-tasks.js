@@ -64,15 +64,15 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-    const args = [...arguments].reverse();
+function getPolynom(...rest) {
+    const args = rest.reverse();
     return (x) => {
         let result = 0;
         for (let i = 0; i < args.length; i++) result += args[i] * Math.pow(x, i);
         return result;
     }
 }
-console.log(getPolynom(2,3,5));
+// console.log(getPolynom(2,3,5));
 
 /**
  * Memoizes passed function and returns function
