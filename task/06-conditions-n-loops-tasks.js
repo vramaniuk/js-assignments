@@ -350,15 +350,14 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    while (true) {
-        const newStr = str.replace(/<>|\[]|{}|\(\)/, '');
-        // console.log(newStr);
-        if (newStr === str)
-            return newStr.length === 0;
-        str = newStr;
+    let n = str.length;
+    while (n) {
+        str = str.replace(/(<>)|(\[])|(\{})|(\(\))/, '');
+        n--;
     }
+    return str.length === 0;
 }
-// console.log(isBracketsBalanced('[[][][[]]]'));
+// console.log(isBracketsBalanced('}{{}'));
 
 /**
  * Returns the human readable string of time period specified by the start and end time.
@@ -392,12 +391,29 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+    let ms = endDate - startDate;
+    const seconds = 1000;
+    const minutes = 60 * seconds;
+    const hours = 60 * minutes;
+    const days = 24 * hours;
+    const years = 365 * days;
+
+    return ((ms <= 45 * seconds) && "a few seconds ago") ||
+        ((ms <= 90 * seconds) && "a minute ago") ||
+        ((ms <= 45 * minutes) && `${Math.round((ms-1) / minutes)} minutes ago`) ||
+        ((ms <= 90 * minutes) && "an hour ago") ||
+        ((ms <= 22 * hours) && `${Math.round((ms - 1) / hours)} hours ago`) ||
+        ((ms <= 36 * hours) && "a day ago") ||
+        ((ms <= 25 * days) && `${Math.round((ms - 1) / days)} days ago`) ||
+        ((ms <= 45 * days) && "a month ago") ||
+        ((ms <= 345 * days) && `${Math.round((ms - 1) / (30 * days))} months ago`) ||
+        ((ms <= 545 * days) && "a year ago") ||
+        (`${Math.round((ms-1) / years)} years ago`);
 }
 
-
+console.log(timespanToHumanString(Date('2000-01-01 00:00:00.000'), Date('2015-02-15 00:00:00.001')));
 /**
- * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
+ * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specied number.
  * See more about
  * https://en.wikipedia.org/wiki/Binary_number
  * https://en.wikipedia.org/wiki/Ternary_numeral_system
@@ -422,9 +438,9 @@ function toNaryString(num, n) {
     //     num = Math.floor(num / n);
     // }
     // return result;
-   return num.toString(n)
+    return num.toString(n)
 }
-console.log(toNaryString(1024,2))
+// console.log(toNaryString(1024,2))
 
 /**
  * Returns the commom directory path for specified array of full filenames.
@@ -497,22 +513,22 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    return (position[0][0] === 'X' && position[1][1] === 'X' && position[2][2]=== 'X'&&'X'||
-           position[0][2] === 'X' && position[1][1] === 'X' && position[2][0]=== 'X'&&'X'||
-           position[0][0] === 'X' && position[0][1] === 'X' && position[0][2]=== 'X'&&'X'||
-           position[1][0] === 'X' && position[1][1] === 'X' && position[1][2]=== 'X'&&'X'||
-           position[2][0] === 'X' && position[2][1] === 'X' && position[2][2]=== 'X'&&'X'||
-           position[0][0] === 'X' && position[1][0] === 'X' && position[2][0]=== 'X'&&'X'||
-           position[0][1] === 'X' && position[1][1] === 'X' && position[2][1]=== 'X'&&'X'||
-           position[0][2] === 'X' && position[1][2] === 'X' && position[2][2]=== 'X'&&'X')||
-           (position[0][0] === '0' && position[1][1] === '0' && position[2][2]=== '0'&&'0'||
-           position[0][2] === '0' && position[1][1] === '0' && position[2][0]=== '0'&&'0'||
-           position[0][0] === '0' && position[0][1] === '0' && position[0][2]=== '0'&&'0'||
-           position[1][0] === '0' && position[1][1] === '0' && position[1][2]=== '0'&&'0'||
-           position[2][0] === '0' && position[2][1] === '0' && position[2][2]=== '0'&&'0'||
-           position[0][0] === '0' && position[1][0] === '0' && position[2][0]=== '0'&&'0'||
-           position[0][1] === '0' && position[1][1] === '0' && position[2][1]=== '0'&&'0'||
-           position[0][2] === '0' && position[1][2] === '0' && position[2][2]=== '0'&&'0')||undefined
+    return (position[0][0] === 'X' && position[1][1] === 'X' && position[2][2] === 'X' && 'X' ||
+        position[0][2] === 'X' && position[1][1] === 'X' && position[2][0] === 'X' && 'X' ||
+        position[0][0] === 'X' && position[0][1] === 'X' && position[0][2] === 'X' && 'X' ||
+        position[1][0] === 'X' && position[1][1] === 'X' && position[1][2] === 'X' && 'X' ||
+        position[2][0] === 'X' && position[2][1] === 'X' && position[2][2] === 'X' && 'X' ||
+        position[0][0] === 'X' && position[1][0] === 'X' && position[2][0] === 'X' && 'X' ||
+        position[0][1] === 'X' && position[1][1] === 'X' && position[2][1] === 'X' && 'X' ||
+        position[0][2] === 'X' && position[1][2] === 'X' && position[2][2] === 'X' && 'X') ||
+        (position[0][0] === '0' && position[1][1] === '0' && position[2][2] === '0' && '0' ||
+            position[0][2] === '0' && position[1][1] === '0' && position[2][0] === '0' && '0' ||
+            position[0][0] === '0' && position[0][1] === '0' && position[0][2] === '0' && '0' ||
+            position[1][0] === '0' && position[1][1] === '0' && position[1][2] === '0' && '0' ||
+            position[2][0] === '0' && position[2][1] === '0' && position[2][2] === '0' && '0' ||
+            position[0][0] === '0' && position[1][0] === '0' && position[2][0] === '0' && '0' ||
+            position[0][1] === '0' && position[1][1] === '0' && position[2][1] === '0' && '0' ||
+            position[0][2] === '0' && position[1][2] === '0' && position[2][2] === '0' && '0') || undefined
 }
 
 // console.log(evaluateTicTacToePosition([['0', '0', '0'], ['X', '0', '0'], ['0', , '0']]));
