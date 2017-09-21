@@ -47,7 +47,7 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-    return (x)=>Math.pow(x,exponent);
+    return (x) => Math.pow(x, exponent);
 }
 
 
@@ -89,7 +89,8 @@ function getPolynom(...rest) {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    let result = func();
+    return () => result;
 }
 
 
@@ -109,7 +110,16 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
+    return () => {
+        while (attempts) {
+            try {
+                return func();
+            } catch (e) {
+                attempts--;
+            };
+        };
+    };
+    // throw new Error('Not implemented');
 }
 
 
@@ -155,9 +165,12 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    let args=[].slice.call(arguments,1);
+    return function(...rest){
+        return args.concat(rest).join('');
+    };
 }
-
+// console.log(partialUsingArguments((x1,x2,x3,x4) => x1+x2+x3+x4),'a','b');
 
 /**
  * Returns the id generator function that returns next integer starting from specified number every time when invoking.
@@ -176,7 +189,7 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    return () => startFrom++;
 }
 
 

@@ -129,14 +129,6 @@ function* depthTraversalTree(root) {
  */
 function* breadthTraversalTree(root) {
     throw new Error('Not implemented');
-    // let stack = [root];
-
-    // while (stack.length) {
-    //     if (node.children) node.children.reverse().forEach((_node) => yield _node;);
-    //     let node = stack.shift();
-    //     yield node;
-
-    // }
 }
 
 
@@ -188,13 +180,20 @@ function* mergeSortedSequences(source1, source2) {
  */
 
 function async(generator) {
-    let iterator = generator();
-    let arrP = [];
-    while (iterator.next().done===false) {
-        arrP.push(iterator.next().value);
-    }
-    return Promise.all(arrP)
-        .then(data => data.reduce((a, b) => a + b));
+    // let iterator = generator();
+    // let arrWithPromises = [];
+    /**arrWithPromises.push(iterator.next().value.then((result) => result)
+        .catch((e) =>console.log(e.message)));
+        */
+        throw new Error('Not implemented');
+
+
+        // arrWithPromises.push(iterator.next().value);
+        // arrWithPromises.push(iterator.next().value);
+        // arrWithPromises.push(iterator.next().value);
+    // return Promise.all(arrWithPromises)
+    //     .then(data => data.reduce((a, b) => a + b));
+
 }
 
 
