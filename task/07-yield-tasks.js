@@ -128,7 +128,14 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let queue = [root];
+    let idxNode = 0;
+    while (queue.length > idxNode) {
+        let node = queue[idxNode];
+        yield node;
+        if (node.children) node.children.forEach((_node) => queue.push(_node));
+        idxNode++;
+    }
 }
 
 
@@ -180,20 +187,13 @@ function* mergeSortedSequences(source1, source2) {
  */
 
 function async(generator) {
-    // let iterator = generator();
-    // let arrWithPromises = [];
-    /**arrWithPromises.push(iterator.next().value.then((result) => result)
-        .catch((e) =>console.log(e.message)));
-        */
-        throw new Error('Not implemented');
-
-
-        // arrWithPromises.push(iterator.next().value);
-        // arrWithPromises.push(iterator.next().value);
-        // arrWithPromises.push(iterator.next().value);
-    // return Promise.all(arrWithPromises)
-    //     .then(data => data.reduce((a, b) => a + b));
-
+    let iterator = generator();
+    
+        return Promise.resolve(function step(item) {
+            var promise = iterator.next(item);
+            if (promise.done) return promise.value;
+            return promise.value.then(step);
+        }());
 }
 
 

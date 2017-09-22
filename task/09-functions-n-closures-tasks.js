@@ -147,9 +147,14 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    return function(...rest) {
+        logFunc(`${func.name}(${rest.map((x) => JSON.stringify(x))}) starts`);
+        let out = func(...rest);
+        logFunc(`${func.name}(${rest.map((x) => JSON.stringify(x))}) ends`);
+        return out;
+    }
 }
-
+// console.log(logger(Math.cos(Math.PI),console.log));
 
 /**
  * Return the function with partial applied arguments
