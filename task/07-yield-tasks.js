@@ -138,7 +138,6 @@ function* breadthTraversalTree(root) {
     }
 }
 
-
 /**
  * Merges two yield-style sorted sequences into the one sorted sequence.
  * The result sequence consists of sorted items from source iterators.
@@ -188,9 +187,9 @@ function* mergeSortedSequences(source1, source2) {
 
 function async(generator) {
     let iterator = generator();
-    
+
         return Promise.resolve(function step(item) {
-            var promise = iterator.next(item);
+            let promise = iterator.next(item);
             if (promise.done) return promise.value;
             return promise.value.then(step);
         }());

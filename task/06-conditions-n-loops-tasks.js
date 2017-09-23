@@ -162,7 +162,7 @@ function doRectanglesOverlap(rect1, rect2) {
 function isInsideCircle(circle, point) {
     return (circle.radius > Math.hypot(
         (circle.center.x < point.x) ? point.x - circle.center.x : circle.center.x - point.x,
-        (circle.center.y < point.y) ? point.y - circle.center.y : circle.center.y - point.y
+        (circle.center.y < point.y) ? point.y - circle.center.y : circle.center.y - point.y,
     ));
 }
 
@@ -357,6 +357,7 @@ function isBracketsBalanced(str) {
     }
     return str.length === 0;
 }
+
 // console.log(isBracketsBalanced('}{{}'));
 
 /**
@@ -440,6 +441,7 @@ function toNaryString(num, n) {
     // return result;
     return num.toString(n)
 }
+
 // console.log(toNaryString(1024,2))
 
 /**
@@ -455,109 +457,120 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
-    // let resArr = [];
-    // let resAllPathes = pathes.map((el) => el.split('/'));
-    // let result = '';
-    // for (let i = 1; i <= resAllPathes.length - 1; i++) {
-    //     for (let j = 1; j <= resAllPathes[0].length - 1; j++)
-    //         if (resAllPathes[i].includes(resAllPathes[j])) result = result + el + '/';
-    //     // resAllPathes[0].forEach((el) =>{if (resAllPathes[i].includes(el)) result=result+'/'+el+'/'});
+    let allPathes = pathes.map((el) => el.split('/'));
+    let result = allPathes.every((el) => el[0] === '') ? '/' : '';
+    allPathes[0].slice(1).forEach((firstPathElem) => {
+        if (allPathes.slice(1).every((otherSet) => otherSet.includes(firstPathElem)))
+            result += `${firstPathElem}/`;
+    });
+    return result;
+}
+
+/**
+ * Returns the product of two specified matrixes.
+ * See details: https://en.wikipedia.org/wiki/Matrix_multiplication
+ *
+ * @param {array} m1
+ * @param {array} m2
+ * @return {array}
+ *
+ * @example:
+ *   [[ 1, 0, 0 ],       [[ 1, 2, 3 ],           [[ 1, 2, 3 ],
+ *    [ 0, 1, 0 ],   X    [ 4, 5, 6 ],     =>     [ 4, 5, 6 ],
+ *    [ 0, 0, 1 ]]        [ 7, 8, 9 ]]            [ 7, 8, 9 ]]
+ *
+ *                        [[ 4 ],
+ *   [[ 1, 2, 3]]    X     [ 5 ],          =>     [[ 32 ]]
+ *                         [ 6 ]]
+ *
+ */
+function getMatrixProduct(m1, m2) {
+    let rowsA = m1.length;
+    let colsA = m1[0].length;
+    let rowsB = m2.length;
+    let colsB = m2[0].length;
+    let Result = [];
+    if (colsA !== rowsB) return false;
+    for (let i = 0; i < rowsA; i++) Result[i] = [];
+    for (let k = 0; k < colsB; k++) {
+        for (let i = 0; i < rowsA; i++) {
+            let temp = 0;
+            for (let j = 0; j < rowsB; j++) temp += m1[i][j] * m2[j][k];
+            Result[i][k] = temp;
+        }
     }
-    // return result
-    // console.log(getCommonDirectoryPath(['/web/images/image1.png', '/web/images/image2.png']));
-
-    /**
-     * Returns the product of two specified matrixes.
-     * See details: https://en.wikipedia.org/wiki/Matrix_multiplication
-     *
-     * @param {array} m1
-     * @param {array} m2
-     * @return {array}
-     *
-     * @example:
-     *   [[ 1, 0, 0 ],       [[ 1, 2, 3 ],           [[ 1, 2, 3 ],
-     *    [ 0, 1, 0 ],   X    [ 4, 5, 6 ],     =>     [ 4, 5, 6 ],
-     *    [ 0, 0, 1 ]]        [ 7, 8, 9 ]]            [ 7, 8, 9 ]]
-     *
-     *                        [[ 4 ],
-     *   [[ 1, 2, 3]]    X     [ 5 ],          =>     [[ 32 ]]
-     *                         [ 6 ]]
-     *
-     */
-    function getMatrixProduct(m1, m2) {
-        throw new Error('Not implemented');
-    }
+    return Result;
+}
 
 
-    /**
-     * Returns the evaluation of the specified tic-tac-toe position.
-     * See the details: https://en.wikipedia.org/wiki/Tic-tac-toe
-     *
-     * Position is provides as 3x3 array with the following values: 'X','0', undefined
-     * Function should return who is winner in the current position according to the game rules.
-     * The result can be: 'X','0',undefined
-     *
-     * @param {array} position
-     * @return {string}
-     *
-     * @example
-     *
-     *   [[ 'X',   ,'0' ],
-     *    [    ,'X','0' ],       =>  'X'
-     *    [    ,   ,'X' ]]
-     *
-     *   [[ '0','0','0' ],
-     *    [    ,'X',    ],       =>  '0'
-     *    [ 'X',   ,'X' ]]
-     *
-     *   [[ '0','X','0' ],
-     *    [    ,'X',    ],       =>  undefined
-     *    [ 'X','0','X' ]]
-     *
-     *   [[    ,   ,    ],
-     *    [    ,   ,    ],       =>  undefined
-     *    [    ,   ,    ]]
-     *
-     */
-    function evaluateTicTacToePosition(position) {
-        return (position[0][0] === 'X' && position[1][1] === 'X' && position[2][2] === 'X' && 'X' ||
-            position[0][2] === 'X' && position[1][1] === 'X' && position[2][0] === 'X' && 'X' ||
-            position[0][0] === 'X' && position[0][1] === 'X' && position[0][2] === 'X' && 'X' ||
-            position[1][0] === 'X' && position[1][1] === 'X' && position[1][2] === 'X' && 'X' ||
-            position[2][0] === 'X' && position[2][1] === 'X' && position[2][2] === 'X' && 'X' ||
-            position[0][0] === 'X' && position[1][0] === 'X' && position[2][0] === 'X' && 'X' ||
-            position[0][1] === 'X' && position[1][1] === 'X' && position[2][1] === 'X' && 'X' ||
-            position[0][2] === 'X' && position[1][2] === 'X' && position[2][2] === 'X' && 'X') ||
-            (position[0][0] === '0' && position[1][1] === '0' && position[2][2] === '0' && '0' ||
-                position[0][2] === '0' && position[1][1] === '0' && position[2][0] === '0' && '0' ||
-                position[0][0] === '0' && position[0][1] === '0' && position[0][2] === '0' && '0' ||
-                position[1][0] === '0' && position[1][1] === '0' && position[1][2] === '0' && '0' ||
-                position[2][0] === '0' && position[2][1] === '0' && position[2][2] === '0' && '0' ||
-                position[0][0] === '0' && position[1][0] === '0' && position[2][0] === '0' && '0' ||
-                position[0][1] === '0' && position[1][1] === '0' && position[2][1] === '0' && '0' ||
-                position[0][2] === '0' && position[1][2] === '0' && position[2][2] === '0' && '0') || undefined
-    }
+/**
+ * Returns the evaluation of the specified tic-tac-toe position.
+ * See the details: https://en.wikipedia.org/wiki/Tic-tac-toe
+ *
+ * Position is provides as 3x3 array with the following values: 'X','0', undefined
+ * Function should return who is winner in the current position according to the game rules.
+ * The result can be: 'X','0',undefined
+ *
+ * @param {array} position
+ * @return {string}
+ *
+ * @example
+ *
+ *   [[ 'X',   ,'0' ],
+ *    [    ,'X','0' ],       =>  'X'
+ *    [    ,   ,'X' ]]
+ *
+ *   [[ '0','0','0' ],
+ *    [    ,'X',    ],       =>  '0'
+ *    [ 'X',   ,'X' ]]
+ *
+ *   [[ '0','X','0' ],
+ *    [    ,'X',    ],       =>  undefined
+ *    [ 'X','0','X' ]]
+ *
+ *   [[    ,   ,    ],
+ *    [    ,   ,    ],       =>  undefined
+ *    [    ,   ,    ]]
+ *
+ */
+function evaluateTicTacToePosition(position) {
+    return (position[0][0] === 'X' && position[1][1] === 'X' && position[2][2] === 'X' && 'X' ||
+        position[0][2] === 'X' && position[1][1] === 'X' && position[2][0] === 'X' && 'X' ||
+        position[0][0] === 'X' && position[0][1] === 'X' && position[0][2] === 'X' && 'X' ||
+        position[1][0] === 'X' && position[1][1] === 'X' && position[1][2] === 'X' && 'X' ||
+        position[2][0] === 'X' && position[2][1] === 'X' && position[2][2] === 'X' && 'X' ||
+        position[0][0] === 'X' && position[1][0] === 'X' && position[2][0] === 'X' && 'X' ||
+        position[0][1] === 'X' && position[1][1] === 'X' && position[2][1] === 'X' && 'X' ||
+        position[0][2] === 'X' && position[1][2] === 'X' && position[2][2] === 'X' && 'X') ||
+        (position[0][0] === '0' && position[1][1] === '0' && position[2][2] === '0' && '0' ||
+            position[0][2] === '0' && position[1][1] === '0' && position[2][0] === '0' && '0' ||
+            position[0][0] === '0' && position[0][1] === '0' && position[0][2] === '0' && '0' ||
+            position[1][0] === '0' && position[1][1] === '0' && position[1][2] === '0' && '0' ||
+            position[2][0] === '0' && position[2][1] === '0' && position[2][2] === '0' && '0' ||
+            position[0][0] === '0' && position[1][0] === '0' && position[2][0] === '0' && '0' ||
+            position[0][1] === '0' && position[1][1] === '0' && position[2][1] === '0' && '0' ||
+            position[0][2] === '0' && position[1][2] === '0' && position[2][2] === '0' && '0') || undefined
+}
 
-    // console.log(evaluateTicTacToePosition([['0', '0', '0'], ['X', '0', '0'], ['0', , '0']]));
+// console.log(evaluateTicTacToePosition([['0', '0', '0'], ['X', '0', '0'], ['0', , '0']]));
 
-    module.exports = {
-        getFizzBuzz: getFizzBuzz,
-        getFactorial: getFactorial,
-        getSumBetweenNumbers: getSumBetweenNumbers,
-        isTriangle: isTriangle,
-        doRectanglesOverlap: doRectanglesOverlap,
-        isInsideCircle: isInsideCircle,
-        findFirstSingleChar: findFirstSingleChar,
-        getIntervalString: getIntervalString,
-        reverseString: reverseString,
-        reverseInteger: reverseInteger,
-        isCreditCardNumber: isCreditCardNumber,
-        getDigitalRoot: getDigitalRoot,
-        isBracketsBalanced: isBracketsBalanced,
-        timespanToHumanString: timespanToHumanString,
-        toNaryString: toNaryString,
-        getCommonDirectoryPath: getCommonDirectoryPath,
-        getMatrixProduct: getMatrixProduct,
-        evaluateTicTacToePosition: evaluateTicTacToePosition
-    };
+module.exports = {
+    getFizzBuzz: getFizzBuzz,
+    getFactorial: getFactorial,
+    getSumBetweenNumbers: getSumBetweenNumbers,
+    isTriangle: isTriangle,
+    doRectanglesOverlap: doRectanglesOverlap,
+    isInsideCircle: isInsideCircle,
+    findFirstSingleChar: findFirstSingleChar,
+    getIntervalString: getIntervalString,
+    reverseString: reverseString,
+    reverseInteger: reverseInteger,
+    isCreditCardNumber: isCreditCardNumber,
+    getDigitalRoot: getDigitalRoot,
+    isBracketsBalanced: isBracketsBalanced,
+    timespanToHumanString: timespanToHumanString,
+    toNaryString: toNaryString,
+    getCommonDirectoryPath: getCommonDirectoryPath,
+    getMatrixProduct: getMatrixProduct,
+    evaluateTicTacToePosition: evaluateTicTacToePosition,
+};
