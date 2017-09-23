@@ -23,10 +23,10 @@
  *    console.log(r.getArea());   // => 200
  */
 function Rectangle(width, height) {
-    this.width=width;
-    this.height=height;
-    this.__proto__.getArea= ()=> {
-        return this.width*this.height;
+    this.width = width;
+    this.height = height;
+    this.__proto__.getArea = () => {
+        return this.width * this.height;
     }
 }
 
@@ -43,6 +43,7 @@ function Rectangle(width, height) {
 function getJSON(obj) {
     return JSON.stringify(obj);
 }
+
 // console.log(getJSON({ width: 10, height : 20 }));
 
 /**
@@ -111,39 +112,116 @@ function fromJSON(proto, json) {
 
 const cssSelectorBuilder = {
 
-    element: function(value) {
-        throw new Error('Not implemented');
+    out: '',
+    level: 0,
+    err_1() {
+        throw new Error(`Element, id and pseudo-element should not occur more then one time inside the selector`)
+    },
+    err_2() {
+        throw new Error(`Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element`)
     },
 
-    id: function(value) {
-        throw new Error('Not implemented');
+    element(value) {
+        let level = 1;
+        if (this.level === level) this.err_1();
+        if (this.level > level) this.err_2();
+        this.out += value;
+        this.level = level;
+        let copy = { ...this };
+        this.reset();
+        return copy;
     },
 
-    class: function(value) {
-        throw new Error('Not implemented');
+    id(value) {
+        let level = 2;
+        if (this.level === level) this.err_1();
+        if (this.level > level) this.err_2();
+        this.out += `#${value}`;
+        this.level = level;
+        let copy = {...this};
+        this.reset();
+        return copy;
     },
 
-    attr: function(value) {
-        throw new Error('Not implemented');
+    class(value) {
+        let level = 3;
+        if (this.level > level) this.err_2();
+        this.out += `.${value}`;
+        this.level = level;
+        let copy = { ...this };
+        this.reset();
+        return copy;
     },
 
-    pseudoClass: function(value) {
-        throw new Error('Not implemented');
+    attr(value) {
+        let level = 4;
+        if (this.level > level) this.err_2();
+        this.out += `[${value}]`;
+        this.level = level;
+        let copy = { ...this };
+        this.reset();
+        return copy;
     },
 
-    pseudoElement: function(value) {
-        throw new Error('Not implemented');
+    pseudoClass(value) {
+        let level = 5;
+        if (this.level > level) this.err_2();
+        this.out += `:${value}`;
+        this.level = level;
+        let copy = { ...this };
+        this.reset();
+        return copy;
     },
 
-    combine: function(selector1, combinator, selector2) {
-        throw new Error('Not implemented');
+    pseudoElement(value) {
+        let level = 6;
+        if (this.level === level) this.err_1();
+        if (this.level > level) this.err_2();
+        this.out += `::${value}`;
+        this.level = level;
+        let copy = { ...this };
+        this.reset();
+        return copy;
+    },
+
+    combine(selector1, combinator, selector2) {
+        this.out = `${selector1.out} ${combinator} ${selector2.out}`;
+        let copy = { ...this };
+        this.reset();
+        return copy;
+    },
+
+    stringify() {
+        let output = this.out;
+        this.reset();
+        return output;
+    },
+
+    reset() {
+        this.out = '';
+        this.level = 0;
     },
 };
+// let builder = cssSelectorBuilder;
 
+// console.log(builder.id('main').class('container').class('editable').stringify());
+// console.log(builder.combine(
+//       builder.element('div').id('main').class('container').class('draggable'),
+//       '+',
+//       builder.combine(
+//           builder.element('table').id('data'),
+//           '~',
+//            builder.combine(
+//                builder.element('tr').pseudoClass('nth-of-type(even)'),
+//                ' ',
+//                builder.element('td').pseudoClass('nth-of-type(even)')
+//            )
+//       )
+//   ).stringify());
 
 module.exports = {
     Rectangle: Rectangle,
     getJSON: getJSON,
     fromJSON: fromJSON,
-    cssSelectorBuilder: cssSelectorBuilder
+    cssSelectorBuilder: cssSelectorBuilder,
 };
