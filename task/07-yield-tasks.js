@@ -188,11 +188,11 @@ function* mergeSortedSequences(source1, source2) {
 function async(generator) {
     let iterator = generator();
 
-        return Promise.resolve(function step(item) {
+        return (function step(item) {
             let promise = iterator.next(item);
             if (promise.done) return promise.value;
             return promise.value.then(step);
-        }());
+        })();
 }
 
 
