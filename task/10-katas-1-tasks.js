@@ -17,10 +17,53 @@
  *  ]
  */
 function createCompassPoints() {
-    throw new Error('Not implemented');
-    var sides = ['N','E','S','W'];  // use array of cardinal directions only!
+    let sides = ['N', 'E', 'S', 'W'];  // use array of cardinal directions only!
+    let result = [];
+    let grads = 0.00;
+    let pointer = 0;
+    
+    function insertItemsBetweenExistedElements(i) {
+        return (i % 2 === 0) ? ((sides[pointer + 1]) ? (sides[pointer] + sides[pointer + 1]) : (sides[pointer] + sides[0]))
+            : ((sides[pointer + 1]) ? (sides[pointer + 1] + sides[pointer]) : (sides[0] + sides[pointer]));
+
+    }
+    for (let i = 0; i < 4; i++) {
+        sides.splice(pointer + 1, 0, insertItemsBetweenExistedElements(i))
+        pointer += 2;
+    }
+    pointer = 0;
+
+    for (let i = 0; i < 8; i++) {
+        sides.splice(pointer + 1, 0, insertItemsBetweenExistedElements(i));
+        pointer += 2;
+    }
+
+    sides.splice(1, 0, 'NbE');
+    sides.splice(3, 0, 'NEbN');
+    sides.splice(5, 0, 'NEbE');
+    sides.splice(7, 0, 'EbN');
+    sides.splice(9, 0, 'EbS');
+    sides.splice(11, 0, 'SEbE');
+    sides.splice(13, 0, 'SEbS');
+    sides.splice(15, 0, 'SbE');
+    sides.splice(17, 0, 'SbW');
+    sides.splice(19, 0, 'SWbS');
+    sides.splice(21, 0, 'SWbW');
+    sides.splice(23, 0, 'WbS');
+    sides.splice(25, 0, 'WbN');
+    sides.splice(27, 0, 'NWbW');
+    sides.splice(29, 0, 'NWbN');
+    sides.splice(31, 0, 'NbW');
+
+    for (let i = 0; i < 32; i++) {
+        result.push({ abbreviation: sides[i], azimuth: grads });
+        grads += 11.25;
+    }
+
+    return result;
 }
 
+console.log(createCompassPoints());
 
 /**
  * Expand the braces of the specified string.
@@ -141,9 +184,9 @@ function extractRanges(nums) {
 }
 
 module.exports = {
-    createCompassPoints : createCompassPoints,
-    expandBraces : expandBraces,
-    getZigZagMatrix : getZigZagMatrix,
-    canDominoesMakeRow : canDominoesMakeRow,
-    extractRanges : extractRanges
+    createCompassPoints: createCompassPoints,
+    expandBraces: expandBraces,
+    getZigZagMatrix: getZigZagMatrix,
+    canDominoesMakeRow: canDominoesMakeRow,
+    extractRanges: extractRanges
 };
