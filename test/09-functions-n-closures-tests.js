@@ -88,14 +88,13 @@ describe('09-functions-n-closures-tasks', function() {
     });
 
 
-    it.optional('retry method should throw error when attemps is end', () => {
+    it.optional('retry method should throw error when attemps are end', () => {
         var maxAttemps = 3;
         var attemps = 0;
         var expected = 'expected';
 
         var fn = function() {
-            if (++attemps<maxAttemps + 1) throw new Error();
-            return expected;
+            throw new Error();
         }
 
         assert.throws(tasks.retry(fn, maxAttemps), Error);
