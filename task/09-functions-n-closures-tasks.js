@@ -116,8 +116,9 @@ function retry(func, attempts) {
                 return func();
             } catch (e) {
                 attempts--;
-            };
-        };
+                if (attempts===0) throw e
+            }
+        }
     };
     // throw new Error('Not implemented');
 }
