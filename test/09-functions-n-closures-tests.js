@@ -88,6 +88,20 @@ describe('09-functions-n-closures-tasks', function() {
     });
 
 
+    it.optional('retry method should throw error when attemps is end', () => {
+        var maxAttemps = 3;
+        var attemps = 0;
+        var expected = 'expected';
+
+        var fn = function() {
+            if (++attemps<maxAttemps + 1) throw new Error();
+            return expected;
+        }
+
+        assert.throws(tasks.retry(fn, maxAttemps), Error);
+    });
+
+
     it.optional('logger method should log start and end of call of the standard js function', () => {
         var log = '';
 
