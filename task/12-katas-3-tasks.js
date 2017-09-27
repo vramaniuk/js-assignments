@@ -45,9 +45,39 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    throw new Error('Not implemented');
+
+    let permArr = [];
+    let usedChars = [];
+
+    function permute(input) {
+        var i, ch;
+        for (i = 0; i < input.length; i++) {
+            ch = input.splice(i, 1)[0];
+            usedChars.push(ch);
+            if (input.length == 0) {
+                permArr.push(usedChars.slice());
+            }
+            permute(input);
+            input.splice(i, 0, ch);
+            usedChars.pop();
+        }
+        return permArr
+    };
+
+    let res = permute(Array.from(chars)).map((el) => el.join(''));
+
+    for (let i = 0; i < res.length; i++)
+        yield res[i];
 }
 
+var gen = getPermutations('123');
+
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
+console.log(gen.next().value);
 
 /**
  * Returns the most profit from stock quotes.
@@ -84,18 +114,18 @@ function getMostProfitFromStockQuotes(quotes) {
  *
  */
 function UrlShortener() {
-    this.urlAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"+
-        "abcdefghijklmnopqrstuvwxyz"+
+    this.urlAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        "abcdefghijklmnopqrstuvwxyz" +
         "0123456789-_.~!*'();:@&=+$,/?#[]";
 }
 
 UrlShortener.prototype = {
 
-    encode: function(url) {
+    encode: function (url) {
         throw new Error('Not implemented');
     },
 
-    decode: function(code) {
+    decode: function (code) {
         throw new Error('Not implemented');
     }
 }

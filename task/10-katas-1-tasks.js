@@ -19,6 +19,7 @@
 function createCompassPoints() {
     let sides = ['N', 'E', 'S', 'W'];  // use array of cardinal directions only!
     let result = [];
+    let copy=sides;
     let grads = 0.00;
     let pointer = 0;
 
