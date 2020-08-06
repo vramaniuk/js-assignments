@@ -70,14 +70,14 @@ function* getPermutations(chars) {
         yield res[i];
 }
 
-var gen = getPermutations('123');
+// var gen = getPermutations('123');
 
-console.log(gen.next().value);
-console.log(gen.next().value);
-console.log(gen.next().value);
-console.log(gen.next().value);
-console.log(gen.next().value);
-console.log(gen.next().value);
+// console.log(gen.next().value);
+// console.log(gen.next().value);
+// console.log(gen.next().value);
+// console.log(gen.next().value);
+// console.log(gen.next().value);
+// console.log(gen.next().value);
 
 /**
  * Returns the most profit from stock quotes.
