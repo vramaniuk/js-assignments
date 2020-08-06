@@ -96,7 +96,7 @@ describe('09-functions-n-closures-tasks', function() {
             assert.equal(err.message, "fulyError", "retry method should throw an initial error");
             return true;
         });
-    });
+    }});
 
 
     it.optional('logger method should log start and end of call of the standard js function', () => {
